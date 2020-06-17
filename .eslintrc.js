@@ -30,7 +30,9 @@ module.exports = {
     semi: ['error', 'always'],
     'react/display-name': 'off',
     'react/prop-types': 'off',
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
+    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 'error'
   },
   settings: {
     react: {
