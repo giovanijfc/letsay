@@ -42,10 +42,10 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
-      "eslint ./src/"
+      "eslint --ext .tsx --ext .ts src/ --fix"
     ],
     "./src/**": [
-      "prettier --write ./src/"
+      "prettier --write ."
     ]
   },
   "husky": {
