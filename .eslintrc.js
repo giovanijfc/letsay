@@ -37,6 +37,9 @@ module.exports = {
   settings: {
     react: {
       version: 'detect'
+    },
+    'import/resolver': {
+      'babel-plugin-root-import': {}
     }
   }
 };
