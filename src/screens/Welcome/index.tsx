@@ -1,17 +1,21 @@
-import React, { useLayoutEffect } from 'react';
-import Text from '~/components/atoms/Text';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-import { setStatusBar } from '~/utils/statusBar';
-import COLORS from '~/utils/colors';
+import Text from '~/components/atoms/Text';
+import Button from '~/components/atoms/Button';
 
 import * as Styled from './styles';
 
 import logoIc from '~/assets/img/logo.png';
 
 const Welcome: React.FC = () => {
-  useLayoutEffect(() => {
-    setStatusBar(COLORS.secondary, true);
-  }, []);
+  const navigation = useNavigation();
+
+  const handleButtonGo = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    navigation.replace('Register');
+  };
 
   return (
     <Styled.Container>
@@ -22,6 +26,20 @@ const Welcome: React.FC = () => {
             Diga sim, para novas aventuras
           </Text>
         </Styled.AreaText>
+
+        <Button backgroundColor='white' onPress={handleButtonGo}>
+          <Text semiBold regular>
+            Registrar
+          </Text>
+        </Button>
+
+        <Styled.SpaceTop />
+
+        <Button onPress={handleButtonGo}>
+          <Text semiBold regular>
+            Login
+          </Text>
+        </Button>
       </Styled.AreaBottom>
     </Styled.Container>
   );

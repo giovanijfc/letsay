@@ -9,7 +9,7 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const AreaText = styled.View`
-  height: 40%;
+  height: 50%;
   width: 80%;
 `;
 
@@ -28,8 +28,4 @@ export const ImageLogo = styled.Image`
   position: absolute;
   top: 200;
   align-self: center;
-`;
-
-export const SpaceTop = styled.View`
-  margin-top: ${SPACING.default};
 `;
