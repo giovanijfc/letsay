@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 
 import * as Styled from './styles';
 
-import { getFontSize, getFontWeight } from './helpers';
+import { getFontSize, getFontWeight, getFontFamily } from './helpers';
 
 interface Props {
   children: string;
@@ -40,12 +40,15 @@ const Text: React.FC<Props> = ({
 
   const fontWeight: string = getFontWeight(semiBold, bold);
 
+  const fontFamily: string = getFontFamily(bold, semiBold);
+
   return (
     <Styled.Text
       style={{
         fontSize,
         color,
-        fontWeight
+        fontWeight,
+        fontFamily
       }}
     >
       {children}

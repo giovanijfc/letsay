@@ -44,3 +44,15 @@ export const getFontWeight = (semiBold: boolean, bold: boolean): string => {
 
   return '100';
 };
+
+export const getFontFamily = (bold: boolean, semiBold: boolean): string => {
+  if (bold) {
+    return 'Graphik-Bold';
+  }
+
+  if (semiBold) {
+    return 'Graphik-Medium';
+  }
+
+  return 'Graphik-Regular';
+};

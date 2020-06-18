@@ -12,7 +12,11 @@ const Routes: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='Welcome' component={Welcome} />
+        <Stack.Screen
+          name='Welcome'
+          component={Welcome}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
