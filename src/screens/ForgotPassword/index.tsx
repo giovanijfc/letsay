@@ -18,7 +18,7 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
 
-const Login: React.FC = () => {
+const ForgotPassword: React.FC = () => {
   const { register, setValue, handleSubmit, errors } = useForm();
   const navigation = useNavigation();
 
@@ -32,15 +32,10 @@ const Login: React.FC = () => {
         }
       }
     );
-    register({ name: 'password' }, { required: true, minLength: 6 });
   }, [register]);
 
   const handleBack = () => {
     navigation.goBack();
-  };
-
-  const handlePressForgotPassword = () => {
-    navigation.navigate('ForgotPassword');
   };
 
   const onSubmit = (values: unknown) => {
@@ -56,12 +51,21 @@ const Login: React.FC = () => {
 
         <Styled.AreaForm>
           <Text
-            style={{ marginBottom: SPACING.huge }}
+            style={{ marginBottom: SPACING.large }}
             semiBold
             color='white'
             extraBig
           >
-            Bem vindo de volta
+            Esqueci a senha
+          </Text>
+
+          <Text
+            style={{ marginBottom: SPACING.huge }}
+            color={COLORS.grey500}
+            regular
+          >
+            Por favor insira seu email para receber o link de criação da nova
+            senha.
           </Text>
 
           {errors.email && errors.email.type && (
@@ -88,51 +92,15 @@ const Login: React.FC = () => {
             onChange={(text: string) => setValue('email', text)}
           />
 
-          {errors.password && errors.password.type && (
-            <Text
-              color={COLORS.error}
-              small
-              style={{
-                marginLeft: SPACING.default,
-                marginBottom: SPACING.nano
-              }}
-            >
-              {errors.password.type === 'required'
-                ? 'Senha obrigatoria!*'
-                : 'A senha não é menor que 6 dígitos!*'}
-            </Text>
-          )}
-
-          <Input
-            onSubmitEditing={handleSubmit(onSubmit)}
-            placeholder='Senha'
-            defaultValue=''
-            type='restrict'
-            onChange={(text: string) => setValue('password', text)}
-          />
-
           <Button style={{ marginTop: 48 }} onPress={handleSubmit(onSubmit)}>
             <Text semiBold regular>
-              Entrar
+              Enviar
             </Text>
           </Button>
         </Styled.AreaForm>
-
-        <Text
-          style={{
-            marginTop: 40,
-            textAlign: 'center'
-          }}
-          color='white'
-          semiBold
-          regular
-          onPress={handlePressForgotPassword}
-        >
-          Esqueceu sua senha?
-        </Text>
       </Styled.Container>
     </Styled.SafeAreaView>
   );
 };
 
-export default Login;
+export default ForgotPassword;

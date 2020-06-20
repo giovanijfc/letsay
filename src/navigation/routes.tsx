@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Welcome from '~/screens/Welcome';
 import Login from '~/screens/Login';
 import Register from '~/screens/Register';
+import ForgotPassword from '~/screens/ForgotPassword';
 
 const Routes: React.FC = () => {
   const Stack = createStackNavigator();
@@ -29,6 +30,12 @@ const Routes: React.FC = () => {
         <Stack.Screen
           name='Register'
           component={Register}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name='ForgotPassword'
+          component={ForgotPassword}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
