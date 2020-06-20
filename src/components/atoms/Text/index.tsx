@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { memo } from 'react';
+import { StyleProp } from 'react-native';
 
 import * as Styled from './styles';
 
@@ -15,6 +17,8 @@ interface Props {
   semiBold?: boolean | false;
   bold?: boolean | false;
   color?: string | 'white';
+  style?: StyleProp<Text> | null;
+  onPress?(): void;
 }
 
 const Text: React.FC<Props> = ({
@@ -27,7 +31,9 @@ const Text: React.FC<Props> = ({
   extraBig,
   semiBold,
   bold,
-  color
+  color,
+  onPress,
+  style
 }) => {
   const fontSize: number = getFontSize(
     small,
@@ -44,11 +50,13 @@ const Text: React.FC<Props> = ({
 
   return (
     <Styled.Text
+      onPress={onPress}
       style={{
         fontSize,
         color,
         fontWeight,
-        fontFamily
+        fontFamily,
+        ...style
       }}
     >
       {children}

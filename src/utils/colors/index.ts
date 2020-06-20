@@ -3,6 +3,8 @@ import { Colors } from './types';
 const COLORS: Colors = {
   primary: '#f5dc45',
   secondary: '#2b303b',
+  terciary: '#54555f',
+  error: '#cc3300',
   grey100: '#F5F5F5',
   grey200: '#EEEEEE',
   grey300: '#E0E0E0',

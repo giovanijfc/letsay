@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { memo } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 
 import * as Styled from './styles';
 
@@ -11,6 +13,7 @@ interface Props {
   extraRounded?: boolean | false;
   backgroundColor?: string | '';
   onPress(): void;
+  style?: StyleProp<ViewStyle> | null;
 }
 
 const Button: React.FC<Props> = ({
@@ -18,7 +21,8 @@ const Button: React.FC<Props> = ({
   rounded,
   extraRounded,
   backgroundColor,
-  onPress
+  onPress,
+  style
 }) => {
   const borderRadius: number = getBorderRadius(rounded, extraRounded);
 
@@ -26,6 +30,7 @@ const Button: React.FC<Props> = ({
     <Styled.Button
       onPress={onPress}
       style={{
+        ...style,
         borderRadius,
         backgroundColor: backgroundColor || COLORS.primary
       }}

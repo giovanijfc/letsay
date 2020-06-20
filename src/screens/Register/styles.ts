@@ -3,29 +3,21 @@ import styled from 'styled-components/native';
 import COLORS from '~/utils/colors';
 import SPACING from '~/utils/spacing';
 
-export const Container = styled.SafeAreaView`
+export const SafeAreaView = styled.SafeAreaView`
   flex: 1;
   background: ${COLORS.secondary};
 `;
 
-export const AreaText = styled.View`
-  height: 50%;
-  width: 80%;
-`;
-
-export const AreaBottom = styled.View`
-  width: 100%;
-  height: 45%;
-  position: absolute;
-  bottom: 0;
+export const Container = styled.View`
+  flex: 1;
   padding-top: ${SPACING.high};
   padding-bottom: ${SPACING.high};
-  padding-left: ${SPACING.large};
-  padding-right: ${SPACING.large};
+  padding-left: ${SPACING.high};
+  padding-right: ${SPACING.high};
+  background: ${COLORS.secondary};
 `;
 
-export const ImageLogo = styled.Image`
-  position: absolute;
-  top: 200;
-  align-self: center;
+export const AreaForm = styled.View`
+  padding-left: ${SPACING.nano};
+  margin-top: 100;
 `;

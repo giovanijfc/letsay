@@ -13,8 +13,7 @@ const Welcome: React.FC = () => {
   const navigation = useNavigation();
 
   const handleButtonGo = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    navigation.replace('Register');
+    navigation.navigate('Register');
   };
 
   return (
