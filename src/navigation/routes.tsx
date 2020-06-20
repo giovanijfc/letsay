@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Welcome from '~/screens/Welcome';
+import Login from '~/screens/Login';
 import Register from '~/screens/Register';
 
 const Routes: React.FC = () => {
@@ -16,6 +17,12 @@ const Routes: React.FC = () => {
         <Stack.Screen
           name='Welcome'
           component={Welcome}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name='Login'
+          component={Login}
           options={{ headerShown: false }}
         />
 

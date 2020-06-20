@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import SPACING from '~/utils/spacing';
 import COLORS from '~/utils/colors';
@@ -16,6 +17,16 @@ export const Container = styled.View`
 `;
 
 export const Input = styled.TextInput.attrs({
+  placeholderTextColor: 'white'
+})`
+  flex: 1;
+  font-size: 18;
+  font-family: 'Graphik-Regular';
+  color: white;
+  font-weight: 500;
+`;
+
+export const InputMask = styled(TextInputMask).attrs({
   placeholderTextColor: 'white'
 })`
   flex: 1;

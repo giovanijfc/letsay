@@ -9,7 +9,7 @@ import Input from '~/components/atoms/Input/';
 import Button from '~/components/atoms/Button';
 
 import SPACING from '~/utils/spacing';
-import { validateEmail, validatePhoneBR } from '~/utils/validate';
+import { validateEmail } from '~/utils/validate';
 import COLORS from '~/utils/colors';
 
 import * as Styled from './styles';
@@ -18,7 +18,7 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
 
-const Register: React.FC = () => {
+const Login: React.FC = () => {
   const { register, setValue, handleSubmit, errors } = useForm();
   const navigation = useNavigation();
 
@@ -28,33 +28,24 @@ const Register: React.FC = () => {
       {
         required: true,
         validate: {
-          notIsEmail: email => validateEmail(email)
+          notIsEmail: text => validateEmail(text)
         }
       }
     );
-    register({ name: 'password' }, { required: true, minLength: 5 });
-    register({ name: 'username' }, { required: true, minLength: 5 });
-    register(
-      { name: 'phone' },
-      {
-        validate: {
-          notIsPhone: phoneNumber => validatePhoneBR(phoneNumber)
-        }
-      }
-    );
+    register({ name: 'password' }, { required: true, minLength: 6 });
   }, [register]);
 
   const handleBack = () => {
     navigation.goBack();
   };
 
-  const onSubmit = (values: unknown) => {
+  const onSubmit = values => {
     Alert.alert('submit', JSON.stringify(values));
   };
 
   return (
     <Styled.SafeAreaView>
-      <Styled.Container behavior='position' keyboardVerticalOffset={-10}>
+      <Styled.Container>
         <TouchableOpacity onPress={handleBack}>
           <IconAntDesign size={32} color='white' name='left' />
         </TouchableOpacity>
@@ -66,29 +57,8 @@ const Register: React.FC = () => {
             color='white'
             extraBig
           >
-            Criar sua conta
+            Bem vindo de volta
           </Text>
-
-          {errors.username && errors.username.type === 'required' && (
-            <Text
-              color={COLORS.error}
-              small
-              style={{
-                marginLeft: SPACING.default,
-                marginBottom: SPACING.nano
-              }}
-            >
-              Nome é obrigatorio!*
-            </Text>
-          )}
-
-          <Input
-            onSubmitEditing={handleSubmit(onSubmit)}
-            style={{ marginBottom: SPACING.default }}
-            placeholder='Nome de usuário'
-            defaultValue=''
-            onChange={(text: string) => setValue('username', text)}
-          />
 
           {errors.email && errors.email.type && (
             <Text
@@ -107,41 +77,10 @@ const Register: React.FC = () => {
 
           <Input
             style={{ marginBottom: SPACING.default }}
-            onSubmitEditing={handleSubmit(onSubmit)}
             placeholder='Email'
             keyboardType='email-address'
             defaultValue=''
             onChange={(text: string) => setValue('email', text)}
-          />
-
-          {errors.phone && errors.phone.type === 'notIsPhone' && (
-            <Text
-              color={COLORS.error}
-              small
-              style={{
-                marginLeft: SPACING.default,
-                marginBottom: SPACING.nano
-              }}
-            >
-              Numero digitado incorreto!
-            </Text>
-          )}
-
-          <Input
-            style={{ marginBottom: SPACING.default }}
-            onSubmitEditing={handleSubmit(onSubmit)}
-            placeholder='Telefone'
-            keyboardType='phone-pad'
-            mask={{
-              type: 'cel-phone',
-              options: {
-                maskType: 'BRL',
-                withDDD: true,
-                dddMask: '(99) '
-              }
-            }}
-            defaultValue=''
-            onChange={(text: string) => setValue('phone', text)}
           />
 
           {errors.password && errors.password.type && (
@@ -161,7 +100,6 @@ const Register: React.FC = () => {
 
           <Input
             placeholder='Senha'
-            onSubmitEditing={handleSubmit(onSubmit)}
             defaultValue=''
             type='restrict'
             onChange={(text: string) => setValue('password', text)}
@@ -176,21 +114,19 @@ const Register: React.FC = () => {
 
         <Text
           style={{
-            marginTop: 40,
-            textAlign: 'center',
-            marginLeft: SPACING.large,
-            marginRight: SPACING.large,
-            lineHeight: 15
+            marginTop: 100,
+            textAlign: 'center'
           }}
-          color={COLORS.grey500}
-          small
+          color='white'
+          semiBold
+          regular
+          onPress={() => Alert.alert('Esqueceu')}
         >
-          Ao tocar em registrar você está aceitando todos os termos e condições
-          desse estabelecimento.
+          Esqueceu sua senha?
         </Text>
       </Styled.Container>
     </Styled.SafeAreaView>
   );
 };
 
-export default Register;
+export default Login;

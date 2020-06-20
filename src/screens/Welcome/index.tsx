@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import Text from '~/components/atoms/Text';
 import Button from '~/components/atoms/Button';
 
+import SPACING from '~/utils/spacing';
+
 import * as Styled from './styles';
 
 import logoIc from '~/assets/img/logo.png';
@@ -12,7 +14,11 @@ import logoIc from '~/assets/img/logo.png';
 const Welcome: React.FC = () => {
   const navigation = useNavigation();
 
-  const handleButtonGo = () => {
+  const handlePressGoLogin = () => {
+    navigation.navigate('Login');
+  };
+
+  const handlePressGoRegister = () => {
     navigation.navigate('Register');
   };
 
@@ -20,13 +26,15 @@ const Welcome: React.FC = () => {
     <Styled.Container>
       <Styled.ImageLogo source={logoIc} />
       <Styled.AreaBottom>
-        <Styled.AreaText>
-          <Text semiBold color='white'>
-            Diga sim, para novas aventuras
-          </Text>
-        </Styled.AreaText>
+        <Text semiBold color='white'>
+          Seu app de mensagem!
+        </Text>
 
-        <Button backgroundColor='white' onPress={handleButtonGo}>
+        <Button
+          style={{ marginTop: SPACING.huge }}
+          backgroundColor='white'
+          onPress={handlePressGoRegister}
+        >
           <Text semiBold regular>
             Registrar
           </Text>
@@ -34,7 +42,7 @@ const Welcome: React.FC = () => {
 
         <Styled.SpaceTop />
 
-        <Button onPress={handleButtonGo}>
+        <Button onPress={handlePressGoLogin}>
           <Text semiBold regular>
             Login
           </Text>

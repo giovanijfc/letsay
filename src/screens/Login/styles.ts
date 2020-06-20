@@ -6,10 +6,10 @@ import SPACING from '~/utils/spacing';
 export const SafeAreaView = styled.SafeAreaView`
   flex: 1;
   background: ${COLORS.secondary};
-  padding-top: ${SPACING.high};
 `;
 
-export const Container = styled.KeyboardAvoidingView`
+export const Container = styled.View`
+  flex: 1;
   padding-top: ${SPACING.high};
   padding-bottom: ${SPACING.high};
   padding-left: ${SPACING.high};
@@ -19,5 +19,5 @@ export const Container = styled.KeyboardAvoidingView`
 
 export const AreaForm = styled.View`
   padding-left: ${SPACING.nano};
-  margin-top: 50;
+  margin-top: 100;
 `;
