@@ -38,7 +38,11 @@ const Register: React.FC = () => {
       { name: 'phone' },
       {
         validate: {
-          notIsPhone: phoneNumber => validatePhoneBR(phoneNumber)
+          notIsPhone: phoneNumber => {
+            if (!phoneNumber || phoneNumber === '') return true;
+
+            return validatePhoneBR(phoneNumber);
+          }
         }
       }
     );
