@@ -39,7 +39,7 @@ const Login: React.FC = () => {
     navigation.goBack();
   };
 
-  const onSubmit = values => {
+  const onSubmit = (values: unknown) => {
     Alert.alert('submit', JSON.stringify(values));
   };
 
@@ -76,6 +76,7 @@ const Login: React.FC = () => {
           )}
 
           <Input
+            onSubmitEditing={handleSubmit(onSubmit)}
             style={{ marginBottom: SPACING.default }}
             placeholder='Email'
             keyboardType='email-address'
@@ -99,6 +100,7 @@ const Login: React.FC = () => {
           )}
 
           <Input
+            onSubmitEditing={handleSubmit(onSubmit)}
             placeholder='Senha'
             defaultValue=''
             type='restrict'
