@@ -17,7 +17,7 @@ export const Container = styled.KeyboardAvoidingView`
   background: ${COLORS.secondary};
 `;
 
-export const AreaForm = styled.View`
+export const AreaForm = styled.ScrollView`
   padding-left: ${SPACING.nano};
   margin-top: 50;
 `;

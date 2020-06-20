@@ -45,7 +45,7 @@ const Login: React.FC = () => {
 
   return (
     <Styled.SafeAreaView>
-      <Styled.Container>
+      <Styled.Container behavior='position' keyboardVerticalOffset={40}>
         <TouchableOpacity onPress={handleBack}>
           <IconAntDesign size={32} color='white' name='left' />
         </TouchableOpacity>
@@ -114,7 +114,7 @@ const Login: React.FC = () => {
 
         <Text
           style={{
-            marginTop: 100,
+            marginTop: 40,
             textAlign: 'center'
           }}
           color='white'

@@ -8,8 +8,7 @@ export const SafeAreaView = styled.SafeAreaView`
   background: ${COLORS.secondary};
 `;
 
-export const Container = styled.View`
-  flex: 1;
+export const Container = styled.KeyboardAvoidingView`
   padding-top: ${SPACING.high};
   padding-bottom: ${SPACING.high};
   padding-left: ${SPACING.high};
@@ -17,7 +16,7 @@ export const Container = styled.View`
   background: ${COLORS.secondary};
 `;
 
-export const AreaForm = styled.View`
+export const AreaForm = styled.ScrollView`
   padding-left: ${SPACING.nano};
   margin-top: 100;
 `;
