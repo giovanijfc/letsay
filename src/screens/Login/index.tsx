@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useEffect } from 'react';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
+import auth from '@react-native-firebase/auth';
 
 import Text from '~/components/atoms/Text/';
 import Input from '~/components/atoms/Input/';
@@ -43,8 +44,21 @@ const Login: React.FC = () => {
     navigation.navigate('ForgotPassword');
   };
 
-  const onSubmit = (values: unknown) => {
-    Alert.alert('submit', JSON.stringify(values));
+  const onSubmit = ({
+    email,
+    password
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
