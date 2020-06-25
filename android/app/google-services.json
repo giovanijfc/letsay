@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "881896308711",
+    "firebase_url": "https://letsay-963b4.firebaseio.com",
+    "project_id": "letsay-963b4",
+    "storage_bucket": "letsay-963b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881896308711:android:176aeb826b6d2b28fa4742",
+        "android_client_info": {
+          "package_name": "com.letsay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "881896308711-94mcfbdqm9l4ddmmv1r61pd1o4lvee3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASloAg6eAtLalhRXPJkCdIFiUt7q6KuS8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "881896308711-94mcfbdqm9l4ddmmv1r61pd1o4lvee3d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "881896308711-7vm9gm8rt4bne4t0ogqg01aa62dgm3ah.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.letsay"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
