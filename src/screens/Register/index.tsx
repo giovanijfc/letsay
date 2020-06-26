@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useEffect } from 'react';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 
 import Text from '~/components/atoms/Text/';
 import Input from '~/components/atoms/Input/';
 import Button from '~/components/atoms/Button';
+
+import realtime from '~/services/firebase/realtime';
 
 import SPACING from '~/utils/spacing';
 import { validateEmail, validatePhoneBR } from '~/utils/validate';
@@ -52,8 +54,25 @@ const Register: React.FC = () => {
     navigation.goBack();
   };
 
-  const onSubmit = (values: unknown) => {
-    Alert.alert('submit', JSON.stringify(values));
+  const onSubmit = async ({
+    email,
+    password,
+    username,
+    phone
+  }: {
+    email: string;
+    password: string;
+    username: string;
+    phone: string;
+  }) => {
+    const user = {
+      email,
+      password,
+      username,
+      phone
+    };
+
+    await realtime.User.createUser(user);
   };
 
   return (
