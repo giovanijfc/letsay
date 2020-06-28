@@ -80,7 +80,6 @@ export const authUserRequest = (
 
     dispatch(authUserSuccess(user));
   } catch (error) {
-    console.log(error);
     let message = 'Error interno do servidor';
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

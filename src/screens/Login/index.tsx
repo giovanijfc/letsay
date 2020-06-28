@@ -51,6 +51,9 @@ const Login: React.FC = () => {
       return Alert.alert('Sucesso!', 'Você logou com sucesso', [
         {
           text: 'ENTENDI',
+          onPress: () => {
+            dispatch(resetState());
+          },
           style: 'cancel'
         }
       ]);

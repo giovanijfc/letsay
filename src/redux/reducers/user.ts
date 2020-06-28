@@ -80,7 +80,10 @@ const user = (state = initialState, action: UserActionTypes): UserState => {
       };
 
     default:
-      return initialState;
+      return {
+        ...initialState,
+        user: state.user
+      };
   }
 };
 
