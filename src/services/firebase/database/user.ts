@@ -16,5 +16,5 @@ export const create = async (userToRegister: UserToCreate): Promise<void> => {
   );
   userToRegister.id = user.uid;
   delete userToRegister['password'];
-  await database().ref('/users').set(userToRegister);
+  await database().ref(`/users/${userToRegister.id}`).set(userToRegister);
 };

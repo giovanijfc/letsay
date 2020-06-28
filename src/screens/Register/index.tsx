@@ -61,8 +61,6 @@ const Register: React.FC = () => {
   }, [register]);
 
   const userRegisterCallback = () => {
-    console.log(registerUser);
-
     if (registerUser.success) {
       return Alert.alert('Sucesso!', 'Conta criada com sucesso!', [
         {
@@ -106,8 +104,15 @@ const Register: React.FC = () => {
   return (
     <Styled.SafeAreaView>
       <Styled.Container behavior='position' keyboardVerticalOffset={-10}>
-        <TouchableOpacity onPress={handleBack}>
-          <IconAntDesign size={32} color='white' name='left' />
+        <TouchableOpacity
+          disabled={registerUser.isLoading}
+          onPress={handleBack}
+        >
+          <IconAntDesign
+            size={32}
+            color={registerUser.isLoading ? COLORS.grey500 : 'white'}
+            name='left'
+          />
         </TouchableOpacity>
 
         <Styled.AreaForm>
