@@ -1,18 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { useEffect, useLayoutEffect } from 'react';
+import { TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Text from '~/components/atoms/Text/';
 import Input from '~/components/atoms/Input/';
 import Button from '~/components/atoms/Button';
 
-import realtime from '~/services/firebase/realtime';
+import { registerUserRequest, resetState } from '~/redux/actions/user';
+
+import { UserToCreate } from '~/services/firebase/database/user';
 
 import SPACING from '~/utils/spacing';
 import { validateEmail, validatePhoneBR } from '~/utils/validate';
 import COLORS from '~/utils/colors';
+
+import { RootState } from '~/redux/reducers';
 
 import * as Styled from './styles';
 
@@ -21,8 +26,13 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 IconAntDesign.loadFont();
 
 const Register: React.FC = () => {
-  const { register, setValue, handleSubmit, errors } = useForm();
+  const {
+    user: { registerUser }
+  } = useSelector((state: RootState) => state);
+
+  const { register, setValue, handleSubmit, errors } = useForm<UserToCreate>();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     register(
@@ -34,7 +44,7 @@ const Register: React.FC = () => {
         }
       }
     );
-    register({ name: 'password' }, { required: true, minLength: 5 });
+    register({ name: 'password' }, { required: true, minLength: 6 });
     register({ name: 'username' }, { required: true, minLength: 5 });
     register(
       { name: 'phone' },
@@ -50,29 +60,47 @@ const Register: React.FC = () => {
     );
   }, [register]);
 
+  const userRegisterCallback = () => {
+    console.log(registerUser);
+
+    if (registerUser.success) {
+      return Alert.alert('Sucesso!', 'Conta criada com sucesso!', [
+        {
+          text: 'ENTENDI',
+          onPress: () => {
+            dispatch(resetState());
+            navigation.goBack();
+            navigation.navigate('Login');
+          },
+          style: 'cancel'
+        }
+      ]);
+    }
+
+    if (registerUser.fail) {
+      return Alert.alert('Aconteceu um problema', registerUser.fail, [
+        {
+          text: 'ENTENDI',
+          onPress: () => {
+            dispatch(resetState());
+          },
+          style: 'cancel'
+        }
+      ]);
+    }
+  };
+
+  useLayoutEffect(userRegisterCallback, [
+    registerUser.success,
+    registerUser.fail
+  ]);
+
   const handleBack = () => {
     navigation.goBack();
   };
 
-  const onSubmit = async ({
-    email,
-    password,
-    username,
-    phone
-  }: {
-    email: string;
-    password: string;
-    username: string;
-    phone: string;
-  }) => {
-    const user = {
-      email,
-      password,
-      username,
-      phone
-    };
-
-    await realtime.User.createUser(user);
+  const onSubmit = (user: UserToCreate) => {
+    dispatch(registerUserRequest(user));
   };
 
   return (
@@ -178,7 +206,7 @@ const Register: React.FC = () => {
             >
               {errors.password.type === 'required'
                 ? 'Senha obrigatoria!*'
-                : 'A senha não é menor que 6 dígitos!*'}
+                : 'A senha não pode ser menor que 6 dígitos!*'}
             </Text>
           )}
 
@@ -190,9 +218,13 @@ const Register: React.FC = () => {
             onChange={(text: string) => setValue('password', text)}
           />
 
-          <Button style={{ marginTop: 48 }} onPress={handleSubmit(onSubmit)}>
+          <Button
+            isLoading={registerUser.isLoading}
+            style={{ marginTop: 48 }}
+            onPress={handleSubmit(onSubmit)}
+          >
             <Text semiBold regular>
-              Entrar
+              Registrar
             </Text>
           </Button>
         </Styled.AreaForm>

@@ -1,7 +1,7 @@
-import rtDatabase from '@react-native-firebase/database';
+import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 
-interface User {
+export interface UserToCreate {
   id?: string;
   email: string;
   username: string;
@@ -9,11 +9,12 @@ interface User {
   phone: string;
 }
 
-export const createUser = async (userToRegister: User): Promise<void> => {
+export const create = async (userToRegister: UserToCreate): Promise<void> => {
   const { user } = await auth().createUserWithEmailAndPassword(
     userToRegister.email,
     userToRegister.password
   );
   userToRegister.id = user.uid;
-  await rtDatabase().ref('/users').set(userToRegister);
+  delete userToRegister['password'];
+  await database().ref('/users').set(userToRegister);
 };
