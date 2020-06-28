@@ -47,18 +47,6 @@ const Login: React.FC = () => {
   }, [register]);
 
   const userAuthCallback = () => {
-    if (authUser.success) {
-      return Alert.alert('Sucesso!', 'Você logou com sucesso', [
-        {
-          text: 'ENTENDI',
-          onPress: () => {
-            dispatch(resetState());
-          },
-          style: 'cancel'
-        }
-      ]);
-    }
-
     if (authUser.fail) {
       return Alert.alert('Aconteceu um problema', authUser.fail, [
         {

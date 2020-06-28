@@ -62,17 +62,7 @@ const Register: React.FC = () => {
 
   const userRegisterCallback = () => {
     if (registerUser.success) {
-      return Alert.alert('Sucesso!', 'Conta criada com sucesso!', [
-        {
-          text: 'ENTENDI',
-          onPress: () => {
-            dispatch(resetState());
-            navigation.goBack();
-            navigation.navigate('Login');
-          },
-          style: 'cancel'
-        }
-      ]);
+      dispatch(resetState());
     }
 
     if (registerUser.fail) {

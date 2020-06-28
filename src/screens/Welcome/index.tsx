@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
+
 import { useNavigation } from '@react-navigation/native';
 
 import Text from '~/components/atoms/Text';

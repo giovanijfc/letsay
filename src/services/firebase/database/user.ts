@@ -7,11 +7,11 @@ import { User } from '~/models/user';
 import { Credentials } from '~/models/credentials';
 
 export const register = async (userToRegister: User): Promise<void> => {
-  const { user } = await Fauth().createUserWithEmailAndPassword(
+  const userCreated = await Fauth().createUserWithEmailAndPassword(
     userToRegister.email,
     userToRegister.password
   );
-  userToRegister.id = user.uid;
+  userToRegister.id = userCreated.user.uid;
   delete userToRegister['password'];
   await database().ref(`/users/${userToRegister.id}`).set(userToRegister);
 };
@@ -27,10 +27,7 @@ export const auth = async (credentials: Credentials): Promise<User> => {
     .once('value');
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const userCompleted: User = {
-    ...user,
-    ...snapshotUser.val()
-  };
+  const userCompleted: User = { ...snapshotUser.val() };
 
   return userCompleted;
 };

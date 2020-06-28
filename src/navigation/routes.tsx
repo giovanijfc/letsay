@@ -8,36 +8,51 @@ import Welcome from '~/screens/Welcome';
 import Login from '~/screens/Login';
 import Register from '~/screens/Register';
 import ForgotPassword from '~/screens/ForgotPassword';
+import Home from '~/screens/Home';
 
-const Routes: React.FC = () => {
+const Routes: React.FC<{ hasUserAuthenticate: boolean }> = ({
+  hasUserAuthenticate
+}) => {
   const Stack = createStackNavigator();
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name='Welcome'
-          component={Welcome}
-          options={{ headerShown: false }}
-        />
+        {hasUserAuthenticate ? (
+          <>
+            <Stack.Screen
+              name='Home'
+              component={Home}
+              options={{ headerShown: false }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name='Welcome'
+              component={Welcome}
+              options={{ headerShown: false }}
+            />
 
-        <Stack.Screen
-          name='Login'
-          component={Login}
-          options={{ headerShown: false }}
-        />
+            <Stack.Screen
+              name='Login'
+              component={Login}
+              options={{ headerShown: false }}
+            />
 
-        <Stack.Screen
-          name='Register'
-          component={Register}
-          options={{ headerShown: false }}
-        />
+            <Stack.Screen
+              name='Register'
+              component={Register}
+              options={{ headerShown: false }}
+            />
 
-        <Stack.Screen
-          name='ForgotPassword'
-          component={ForgotPassword}
-          options={{ headerShown: false }}
-        />
+            <Stack.Screen
+              name='ForgotPassword'
+              component={ForgotPassword}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
