@@ -1,17 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { useEffect, useLayoutEffect } from 'react';
+import { TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
-import auth from '@react-native-firebase/auth';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Text from '~/components/atoms/Text/';
 import Input from '~/components/atoms/Input/';
 import Button from '~/components/atoms/Button';
 
+import { authUserRequest, resetState } from '~/redux/actions/user';
+
 import SPACING from '~/utils/spacing';
 import { validateEmail } from '~/utils/validate';
 import COLORS from '~/utils/colors';
+
+import { Credentials } from '~/models/credentials';
+import { RootState } from '~/redux/reducers';
 
 import * as Styled from './styles';
 
@@ -20,8 +25,13 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 IconAntDesign.loadFont();
 
 const Login: React.FC = () => {
-  const { register, setValue, handleSubmit, errors } = useForm();
+  const {
+    user: { authUser }
+  } = useSelector((state: RootState) => state);
+
+  const { register, setValue, handleSubmit, errors } = useForm<Credentials>();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     register(
@@ -36,36 +46,54 @@ const Login: React.FC = () => {
     register({ name: 'password' }, { required: true, minLength: 6 });
   }, [register]);
 
+  const userAuthCallback = () => {
+    if (authUser.success) {
+      return Alert.alert('Sucesso!', 'Você logou com sucesso', [
+        {
+          text: 'ENTENDI',
+          style: 'cancel'
+        }
+      ]);
+    }
+
+    if (authUser.fail) {
+      return Alert.alert('Aconteceu um problema', authUser.fail, [
+        {
+          text: 'ENTENDI',
+          onPress: () => {
+            dispatch(resetState());
+          },
+          style: 'cancel'
+        }
+      ]);
+    }
+  };
+
+  useLayoutEffect(userAuthCallback, [authUser.success, authUser.fail]);
+
   const handleBack = () => {
     navigation.goBack();
   };
 
   const handlePressForgotPassword = () => {
+    if (authUser.isLoading) return;
+
     navigation.navigate('ForgotPassword');
   };
 
-  const onSubmit = ({
-    email,
-    password
-  }: {
-    email: string;
-    password: string;
-  }) => {
-    auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  const onSubmit = (credentials: Credentials) => {
+    dispatch(authUserRequest(credentials));
   };
 
   return (
     <Styled.SafeAreaView>
       <Styled.Container behavior='position' keyboardVerticalOffset={40}>
-        <TouchableOpacity onPress={handleBack}>
-          <IconAntDesign size={32} color='white' name='left' />
+        <TouchableOpacity disabled={authUser.isLoading} onPress={handleBack}>
+          <IconAntDesign
+            size={32}
+            color={authUser.isLoading ? COLORS.grey500 : 'white'}
+            name='left'
+          />
         </TouchableOpacity>
 
         <Styled.AreaForm>
@@ -125,7 +153,11 @@ const Login: React.FC = () => {
             onChange={(text: string) => setValue('password', text)}
           />
 
-          <Button style={{ marginTop: 48 }} onPress={handleSubmit(onSubmit)}>
+          <Button
+            isLoading={authUser.isLoading}
+            style={{ marginTop: 48 }}
+            onPress={handleSubmit(onSubmit)}
+          >
             <Text semiBold regular>
               Entrar
             </Text>
@@ -137,7 +169,7 @@ const Login: React.FC = () => {
             marginTop: 40,
             textAlign: 'center'
           }}
-          color='white'
+          color={authUser.isLoading ? COLORS.grey500 : 'white'}
           semiBold
           regular
           onPress={handlePressForgotPassword}

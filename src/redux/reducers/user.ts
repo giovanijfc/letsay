@@ -1,7 +1,7 @@
 import {
-  GET_USER_BY_ID,
-  GET_USER_BY_ID_SUCCESS,
-  GET_USER_BY_ID_FAIL,
+  AUTH_USER,
+  AUTH_USER_SUCCESS,
+  AUTH_USER_FAIL,
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL
@@ -10,7 +10,8 @@ import {
 import { UserState, UserActionTypes } from '~/redux/actions/user/types';
 
 const initialState: UserState = {
-  getUserByid: {
+  user: undefined,
+  authUser: {
     success: undefined,
     fail: undefined,
     isLoading: false
@@ -24,6 +25,33 @@ const initialState: UserState = {
 
 const user = (state = initialState, action: UserActionTypes): UserState => {
   switch (action.type) {
+    case AUTH_USER:
+      return {
+        ...state,
+        authUser: {
+          ...state.authUser,
+          isLoading: true
+        }
+      };
+    case AUTH_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.user,
+        authUser: {
+          ...state.authUser,
+          success: true,
+          isLoading: false
+        }
+      };
+    case AUTH_USER_FAIL:
+      return {
+        ...state,
+        authUser: {
+          ...state.authUser,
+          isLoading: false,
+          fail: action.fail
+        }
+      };
     case REGISTER_USER:
       return {
         ...state,
@@ -46,16 +74,11 @@ const user = (state = initialState, action: UserActionTypes): UserState => {
         ...state,
         registerUser: {
           ...state.registerUser,
-          fail: action.fail,
+          fail: action?.fail,
           isLoading: false
         }
       };
-    case GET_USER_BY_ID:
-      return state;
-    case GET_USER_BY_ID_SUCCESS:
-      return state;
-    case GET_USER_BY_ID_FAIL:
-      return state;
+
     default:
       return initialState;
   }

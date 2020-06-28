@@ -1,27 +1,27 @@
 import { User } from '~/models/user';
 
 import {
-  GET_USER_BY_ID,
-  GET_USER_BY_ID_SUCCESS,
-  GET_USER_BY_ID_FAIL,
+  AUTH_USER,
+  AUTH_USER_SUCCESS,
+  AUTH_USER_FAIL,
   REGISTER_USER,
   REGISTER_USER_FAIL,
   REGISTER_USER_SUCCESS,
   RESET_STATE
 } from '.';
 
-interface getUserById {
-  type: typeof GET_USER_BY_ID;
+interface authUser {
+  type: typeof AUTH_USER;
 }
 
-interface getUserByIdSuccess {
-  type: typeof GET_USER_BY_ID_SUCCESS;
+interface authUserSuccess {
+  type: typeof AUTH_USER_SUCCESS;
   user: User;
 }
 
-interface getUserByIdFail {
-  type: typeof GET_USER_BY_ID_FAIL;
-  message: string;
+interface authUserFail {
+  type: typeof AUTH_USER_FAIL;
+  fail: string;
 }
 
 interface registerUser {
@@ -42,22 +42,23 @@ interface resetState {
 }
 
 export interface UserState {
-  getUserByid: {
-    success?: User | undefined;
+  user?: User | undefined;
+  authUser: {
+    success?: boolean | false;
     fail?: string | undefined;
     isLoading?: boolean;
   };
   registerUser: {
     success?: boolean | false;
-    fail: string | undefined;
+    fail?: string | undefined;
     isLoading?: boolean | false;
   };
 }
 
 export type UserActionTypes =
-  | getUserById
-  | getUserByIdSuccess
-  | getUserByIdFail
+  | authUser
+  | authUserSuccess
+  | authUserFail
   | registerUser
   | registerUserFail
   | registerUserSuccess

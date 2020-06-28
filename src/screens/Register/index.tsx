@@ -11,7 +11,7 @@ import Button from '~/components/atoms/Button';
 
 import { registerUserRequest, resetState } from '~/redux/actions/user';
 
-import { UserToCreate } from '~/services/firebase/database/user';
+import { User } from '~/models/user';
 
 import SPACING from '~/utils/spacing';
 import { validateEmail, validatePhoneBR } from '~/utils/validate';
@@ -30,7 +30,7 @@ const Register: React.FC = () => {
     user: { registerUser }
   } = useSelector((state: RootState) => state);
 
-  const { register, setValue, handleSubmit, errors } = useForm<UserToCreate>();
+  const { register, setValue, handleSubmit, errors } = useForm<User>();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -97,7 +97,7 @@ const Register: React.FC = () => {
     navigation.goBack();
   };
 
-  const onSubmit = (user: UserToCreate) => {
+  const onSubmit = (user: User) => {
     dispatch(registerUserRequest(user));
   };
 
