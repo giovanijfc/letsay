@@ -59,7 +59,7 @@ export const registerUserRequest = (
 
     dispatch(registerUserSuccess());
   } catch (error) {
-    let message = 'Error interno do servidor';
+    let message = 'Error interno do servidor.';
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (error.code === 'auth/email-already-in-use') {
@@ -80,14 +80,14 @@ export const authUserRequest = (
 
     dispatch(authUserSuccess(user));
   } catch (error) {
-    let message = 'Error interno do servidor';
+    let message = 'Error interno do servidor.';
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (error.code === 'auth/user-not-found') {
-      message = 'Conta não encontrada';
+      message = 'Conta não encontrada.';
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     } else if (error.code === 'auth/wrong-password') {
-      message = 'Senha incorreta';
+      message = 'Senha incorreta.';
     }
 
     dispatch(authUserFail(message));

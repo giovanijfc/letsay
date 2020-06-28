@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
+import auth from '@react-native-firebase/auth';
 
 import Text from '~/components/atoms/Text/';
 import Input from '~/components/atoms/Input/';
@@ -18,8 +19,16 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
 
+interface ForgotPasswordForm {
+  email: string;
+}
+
 const ForgotPassword: React.FC = () => {
-  const { register, setValue, handleSubmit, errors } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { register, setValue, handleSubmit, errors } = useForm<
+    ForgotPasswordForm
+  >();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -38,15 +47,35 @@ const ForgotPassword: React.FC = () => {
     navigation.goBack();
   };
 
-  const onSubmit = (values: unknown) => {
-    Alert.alert('submit', JSON.stringify(values));
+  const onSubmit = async (values: ForgotPasswordForm) => {
+    setIsLoading(true);
+    await auth().sendPasswordResetEmail(values.email);
+    setIsLoading(false);
+
+    return Alert.alert(
+      'Redefinir senha',
+      `Enviamos um email para ${values.email}, verifique-o para redefinir sua senha.`,
+      [
+        {
+          text: 'ENTENDI',
+          onPress: () => {
+            navigation.goBack();
+          },
+          style: 'cancel'
+        }
+      ]
+    );
   };
 
   return (
     <Styled.SafeAreaView>
       <Styled.Container behavior='position' keyboardVerticalOffset={40}>
-        <TouchableOpacity onPress={handleBack}>
-          <IconAntDesign size={32} color='white' name='left' />
+        <TouchableOpacity disabled={isLoading} onPress={handleBack}>
+          <IconAntDesign
+            size={32}
+            color={isLoading ? COLORS.grey500 : 'white'}
+            name='left'
+          />
         </TouchableOpacity>
 
         <Styled.AreaForm>
@@ -92,7 +121,11 @@ const ForgotPassword: React.FC = () => {
             onChange={(text: string) => setValue('email', text)}
           />
 
-          <Button style={{ marginTop: 48 }} onPress={handleSubmit(onSubmit)}>
+          <Button
+            isLoading={isLoading}
+            style={{ marginTop: 48 }}
+            onPress={handleSubmit(onSubmit)}
+          >
             <Text semiBold regular>
               Enviar
             </Text>
