@@ -1,6 +1,6 @@
 import COLORS from '~/utils/colors';
 import React from 'react';
-import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import ChatItem from '~/components/molecules/ChatItem';
 
@@ -16,6 +16,12 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 IconAntDesign.loadFont();
 
 const Chats: React.FC = () => {
+  const navigation = useNavigation();
+
+  const onClickNewMessageHandle = () => {
+    navigation.navigate('NewMessage');
+  };
+
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
@@ -44,9 +50,7 @@ const Chats: React.FC = () => {
           }}
           bottom={20}
           right={15}
-          onPress={() => {
-            Alert.alert('teste');
-          }}
+          onPress={onClickNewMessageHandle}
         >
           <IconAntDesign name='plus' color={COLORS.secondary} size={34} />
         </FloatingButton>
