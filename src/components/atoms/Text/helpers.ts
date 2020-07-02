@@ -15,7 +15,7 @@ export const getFontSize = (
   }
 
   if (regular) {
-    return 16;
+    return 14;
   }
 
   if (extraRegular) {

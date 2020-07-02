@@ -100,7 +100,7 @@ const Register: React.FC = () => {
         >
           <IconAntDesign
             size={32}
-            color={registerUser.isLoading ? COLORS.grey500 : 'white'}
+            color={registerUser.isLoading ? COLORS.gray500 : 'white'}
             name='left'
           />
         </TouchableOpacity>
@@ -232,7 +232,7 @@ const Register: React.FC = () => {
             marginRight: SPACING.large,
             lineHeight: 15
           }}
-          color={COLORS.grey500}
+          color={COLORS.gray500}
           small
         >
           Ao tocar em registrar você está aceitando todos os termos e condições

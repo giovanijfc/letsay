@@ -82,7 +82,7 @@ const Login: React.FC = () => {
         <TouchableOpacity disabled={authUser.isLoading} onPress={handleBack}>
           <IconAntDesign
             size={32}
-            color={authUser.isLoading ? COLORS.grey500 : 'white'}
+            color={authUser.isLoading ? COLORS.gray500 : 'white'}
             name='left'
           />
         </TouchableOpacity>
@@ -160,7 +160,7 @@ const Login: React.FC = () => {
             marginTop: 40,
             textAlign: 'center'
           }}
-          color={authUser.isLoading ? COLORS.grey500 : 'white'}
+          color={authUser.isLoading ? COLORS.gray500 : 'white'}
           semiBold
           regular
           onPress={handlePressForgotPassword}

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { memo } from 'react';
-import { StyleProp } from 'react-native';
+import { StyleProp, TextStyle } from 'react-native';
 
 import * as Styled from './styles';
 
@@ -17,7 +17,7 @@ interface Props {
   semiBold?: boolean | false;
   bold?: boolean | false;
   color?: string | 'white';
-  style?: StyleProp<Text> | null;
+  style?: StyleProp<TextStyle> | null;
   onPress?(): void;
 }
 

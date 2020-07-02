@@ -73,7 +73,7 @@ const ForgotPassword: React.FC = () => {
         <TouchableOpacity disabled={isLoading} onPress={handleBack}>
           <IconAntDesign
             size={32}
-            color={isLoading ? COLORS.grey500 : 'white'}
+            color={isLoading ? COLORS.gray500 : 'white'}
             name='left'
           />
         </TouchableOpacity>
@@ -90,7 +90,7 @@ const ForgotPassword: React.FC = () => {
 
           <Text
             style={{ marginBottom: SPACING.huge }}
-            color={COLORS.grey500}
+            color={COLORS.gray500}
             regular
           >
             Por favor insira seu email para receber o link de criação da nova

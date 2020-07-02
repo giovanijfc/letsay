@@ -2,14 +2,15 @@ export interface Colors {
   primary: string;
   secondary: string;
   terciary: string;
+  separator: string;
   error: string;
-  grey100: string;
-  grey200: string;
-  grey300: string;
-  grey400: string;
-  grey500: string;
-  grey600: string;
-  grey700: string;
-  grey800: string;
-  grey900: string;
+  gray100: string;
+  gray200: string;
+  gray300: string;
+  gray400: string;
+  gray500: string;
+  gray600: string;
+  gray700: string;
+  gray800: string;
+  gray900: string;
 }
