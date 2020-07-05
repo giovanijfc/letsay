@@ -1,4 +1,3 @@
-import COLORS from '~/utils/colors';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,6 +7,7 @@ import FloatingButton from '~/components/atoms/FloatingButton';
 import Text from '~/components/atoms/Text';
 
 import SPACING from '~/utils/spacing';
+import COLORS from '~/utils/colors';
 
 import * as Styled from './styles';
 
@@ -19,7 +19,7 @@ const Chats: React.FC = () => {
   const navigation = useNavigation();
 
   const onClickNewMessageHandle = () => {
-    navigation.navigate('NewMessage');
+    navigation.navigate('NewChat');
   };
 
   return (

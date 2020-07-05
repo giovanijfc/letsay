@@ -8,7 +8,7 @@ import SPACING from '~/utils/spacing';
 
 import * as Styled from './styles';
 
-const Input: React.FC = () => {
+const ChatItem: React.FC = () => {
   return (
     <Styled.Container>
       <View
@@ -37,4 +37,4 @@ const Input: React.FC = () => {
   );
 };
 
-export default memo(Input);
+export default memo(ChatItem);

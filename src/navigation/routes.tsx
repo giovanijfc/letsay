@@ -9,7 +9,7 @@ import Login from '~/screens/Login';
 import Register from '~/screens/Register';
 import ForgotPassword from '~/screens/ForgotPassword';
 import Home from '~/screens/Home';
-import NewMessage from '~/screens/NewMessage';
+import NewChat from '~/screens/NewChat';
 
 const Routes: React.FC<{ hasUserAuthenticate: boolean }> = ({
   hasUserAuthenticate
@@ -28,8 +28,8 @@ const Routes: React.FC<{ hasUserAuthenticate: boolean }> = ({
             />
 
             <Stack.Screen
-              name='NewMessage'
-              component={NewMessage}
+              name='NewChat'
+              component={NewChat}
               options={{ headerShown: false }}
             />
           </>
