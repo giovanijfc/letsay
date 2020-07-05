@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Text from '~/components/atoms/Text';
 
@@ -9,8 +10,10 @@ import SPACING from '~/utils/spacing';
 import * as Styled from './styles';
 
 const ChatItem: React.FC = () => {
+  const navigation = useNavigation();
+
   return (
-    <Styled.Container>
+    <Styled.Container onPress={() => navigation.navigate('Chat')}>
       <View
         style={{
           width: 80,

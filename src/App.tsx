@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const [hasUserAuthenticate, setHasUserAuthenticate] = useState(false);
 
   useEffect(() => {
-    setStatusBar(COLORS.secondary, true);
+    setStatusBar(COLORS.separator, true);
 
     auth().onAuthStateChanged(auth => {
       setHasUserAuthenticate(Boolean(auth));

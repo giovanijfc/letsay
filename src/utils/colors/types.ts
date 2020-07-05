@@ -3,6 +3,7 @@ export interface Colors {
   secondary: string;
   terciary: string;
   separator: string;
+  textMessage: string;
   error: string;
   gray100: string;
   gray200: string;

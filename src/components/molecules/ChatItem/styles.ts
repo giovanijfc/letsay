@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import SPACING from '~/utils/spacing';
 import COLORS from '~/utils/colors';
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
   width: 100%;
   height: 110;
   flex-direction: row;

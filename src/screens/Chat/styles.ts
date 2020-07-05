@@ -5,13 +5,11 @@ import SPACING from '~/utils/spacing';
 
 export const SafeAreaView = styled.SafeAreaView`
   flex: 1;
-  background: white;
+  background: ${COLORS.secondary};
 `;
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
   flex: 1;
-  padding-top: ${SPACING.high};
-  padding-bottom: ${SPACING.high};
   padding-left: ${SPACING.high};
   padding-right: ${SPACING.high};
   background: ${COLORS.secondary};

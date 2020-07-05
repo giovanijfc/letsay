@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Text from '~/components/atoms/Text/';
-import Input from '~/components/atoms/Input/';
+import Input from '~/components/atoms/Input';
 import Button from '~/components/atoms/Button';
 
 import { authUserRequest, resetState } from '~/redux/actions/user';

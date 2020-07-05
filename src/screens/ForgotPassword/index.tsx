@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import auth from '@react-native-firebase/auth';
 
 import Text from '~/components/atoms/Text/';
-import Input from '~/components/atoms/Input/';
+import Input from '~/components/atoms/Input';
 import Button from '~/components/atoms/Button';
 
 import SPACING from '~/utils/spacing';

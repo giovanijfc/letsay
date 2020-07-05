@@ -5,6 +5,7 @@ const COLORS: Colors = {
   secondary: '#2b303b',
   terciary: '#54555f',
   separator: '#262b37',
+  textMessage: '#59595d',
   error: '#cc3300',
   gray100: '#F5F5F5',
   gray200: '#EEEEEE',
