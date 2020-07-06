@@ -11,11 +11,12 @@ import * as Styled from './styles';
 interface Props {
   name: string | '';
   uid: string | '';
+  onPress?(uid: string): void;
 }
 
-const ProfileItem: React.FC<Props> = ({ name, uid }) => {
+const ProfileItem: React.FC<Props> = ({ name, uid, onPress }) => {
   return (
-    <Styled.Container>
+    <Styled.Container onPress={() => onPress?.(uid)}>
       <View
         style={{
           width: 70,

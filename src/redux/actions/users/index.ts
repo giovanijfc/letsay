@@ -1,6 +1,5 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import Fauth from '@react-native-firebase/auth';
 
 import { UsersActionTypes } from './types';
 import { RootState } from '~/redux/reducers/index';

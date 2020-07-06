@@ -3,6 +3,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import { TouchableOpacity, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 import ProfileItem from '~/components/molecules/ProfileItem';
 
@@ -11,6 +12,8 @@ import Input from '~/components/atoms/Input';
 import CenterLoader from '~/components/atoms/CenterLoader';
 
 import { getAllUsersRequest } from '~/redux/actions/users';
+
+import database from '~/services/firebase/database';
 
 import SPACING from '~/utils/spacing';
 
@@ -52,6 +55,11 @@ const NewMessage: React.FC = () => {
     navigation.goBack();
   };
 
+  const onPressProfileItemHandler = async (uid: string) => {
+    const userLoggedId: string | undefined = auth().currentUser?.uid;
+    await database.chat.createChat([uid, userLoggedId || '']);
+  };
+
   if (getAllUsers.isLoading) {
     return <CenterLoader />;
   }
@@ -85,7 +93,11 @@ const NewMessage: React.FC = () => {
         <FlatList
           data={name.length > 0 ? usersFindByName : getAllUsers.success}
           renderItem={({ item }) => (
-            <ProfileItem name={item.username} uid={item.id} />
+            <ProfileItem
+              onPress={onPressProfileItemHandler}
+              name={item.username}
+              uid={item.id}
+            />
           )}
         />
       </Styled.Container>
