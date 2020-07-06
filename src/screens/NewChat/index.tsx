@@ -36,8 +36,6 @@ const NewMessage: React.FC = () => {
     dispatch(getAllUsersRequest());
   }, []);
 
-  console.log(getAllUsers);
-
   const handleBack = () => {
     navigation.goBack();
   };
