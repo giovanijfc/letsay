@@ -8,7 +8,12 @@ import SPACING from '~/utils/spacing';
 
 import * as Styled from './styles';
 
-const ProfileItem: React.FC = () => {
+interface Props {
+  name: string | '';
+  uid: string | '';
+}
+
+const ProfileItem: React.FC<Props> = ({ name, uid }) => {
   return (
     <Styled.Container>
       <View
@@ -26,7 +31,7 @@ const ProfileItem: React.FC = () => {
         semiBold
         color={COLORS.gray600}
       >
-        GeoGeo
+        {name}
       </Text>
     </Styled.Container>
   );

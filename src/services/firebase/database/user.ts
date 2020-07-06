@@ -31,3 +31,16 @@ export const auth = async (credentials: Credentials): Promise<User> => {
 
   return userCompleted;
 };
+
+export const getAll = async (): Promise<User[]> => {
+  const userLoggedId = Fauth().currentUser?.uid;
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  let users: User[] = Object.values(
+    await (await database().ref('/users/').once('value')).val()
+  );
+
+  users = users.filter(({ id }) => id !== userLoggedId);
+
+  return users;
+};

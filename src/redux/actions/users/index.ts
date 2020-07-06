@@ -35,10 +35,7 @@ export const getAllUsersRequest = (): ThunkAction<
   dispatch(getAllUsers());
 
   try {
-    let users = Object.values(await database.user.getAll());
-    const userLoggedId = Fauth().currentUser?.uid;
-
-    users = users.filter(({ id }) => id !== userLoggedId);
+    const users: User[] = await database.user.getAll();
 
     dispatch(getAllUsersSuccess(users));
   } catch (error) {

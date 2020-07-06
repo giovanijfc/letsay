@@ -1,14 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { useState, useLayoutEffect } from 'react';
+import { TouchableOpacity, FlatList } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import ProfileItem from '~/components/molecules/ProfileItem';
 
 import Text from '~/components/atoms/Text/';
 import Input from '~/components/atoms/Input';
+import CenterLoader from '~/components/atoms/CenterLoader';
+
+import { getAllUsersRequest } from '~/redux/actions/users';
 
 import SPACING from '~/utils/spacing';
+
+import { RootState } from '~/redux/reducers';
 
 import * as Styled from './styles';
 
@@ -19,11 +25,26 @@ IconAntDesign.loadFont();
 const NewMessage: React.FC = () => {
   const [name, setName] = useState('');
 
+  const {
+    users: { getAllUsers }
+  } = useSelector((state: RootState) => state);
+
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    dispatch(getAllUsersRequest());
+  }, []);
+
+  console.log(getAllUsers);
 
   const handleBack = () => {
     navigation.goBack();
   };
+
+  if (getAllUsers.isLoading) {
+    return <CenterLoader />;
+  }
 
   return (
     <Styled.SafeAreaView>
@@ -51,12 +72,12 @@ const NewMessage: React.FC = () => {
           style={{ marginBottom: SPACING.default, marginTop: SPACING.small }}
         />
 
-        <ProfileItem />
-        <ProfileItem />
-        <ProfileItem />
-        <ProfileItem />
-        <ProfileItem />
-        <ProfileItem />
+        <FlatList
+          data={getAllUsers.success}
+          renderItem={({ item }) => (
+            <ProfileItem name={item.username} uid={item.id} />
+          )}
+        />
       </Styled.Container>
     </Styled.SafeAreaView>
   );
