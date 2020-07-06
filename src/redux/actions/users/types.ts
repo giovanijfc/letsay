@@ -18,7 +18,7 @@ interface getAllUsersFail {
 
 export interface UsersState {
   getAllUsers: {
-    success?: unknown | null;
+    success?: User[] | [];
     fail?: string | null;
     isLoading?: boolean | false;
   };

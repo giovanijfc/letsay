@@ -15,6 +15,7 @@ import { getAllUsersRequest } from '~/redux/actions/users';
 import SPACING from '~/utils/spacing';
 
 import { RootState } from '~/redux/reducers';
+import { User } from '~/models/user';
 
 import * as Styled from './styles';
 
@@ -24,6 +25,7 @@ IconAntDesign.loadFont();
 
 const NewMessage: React.FC = () => {
   const [name, setName] = useState('');
+  const [usersFindByName, setUsersFindByName] = useState<User[]>([]);
 
   const {
     users: { getAllUsers }
@@ -35,6 +37,16 @@ const NewMessage: React.FC = () => {
   useLayoutEffect(() => {
     dispatch(getAllUsersRequest());
   }, []);
+
+  useLayoutEffect(() => {
+    if (name.length > 0) {
+      const filteredUserUpdate: User[] = getAllUsers.success?.filter(user =>
+        user.username.includes(name)
+      );
+
+      setUsersFindByName(filteredUserUpdate);
+    }
+  }, [name]);
 
   const handleBack = () => {
     navigation.goBack();
@@ -71,7 +83,7 @@ const NewMessage: React.FC = () => {
         />
 
         <FlatList
-          data={getAllUsers.success}
+          data={name.length > 0 ? usersFindByName : getAllUsers.success}
           renderItem={({ item }) => (
             <ProfileItem name={item.username} uid={item.id} />
           )}

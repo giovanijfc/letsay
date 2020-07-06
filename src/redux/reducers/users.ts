@@ -8,7 +8,7 @@ import { UsersState, UsersActionTypes } from '~/redux/actions/users/types';
 
 const initialState: UsersState = {
   getAllUsers: {
-    success: null,
+    success: [],
     fail: null,
     isLoading: false
   }
