@@ -1,7 +1,8 @@
 import RNdatabase from '@react-native-firebase/database';
 
-import { Chat } from '~/models/chat';
 import database from '~/services/firebase/database';
+
+import { Chat } from '~/models/chat';
 
 export const getChatsByIdUser = async (
   userLoggedId: string
@@ -18,7 +19,7 @@ export const getChatsByIdUser = async (
   return chats ? Object.values(chats) : [];
 };
 
-export const createChat = async (usersIds: string[]): Promise<void> => {
+export const createChat = async (usersIds: string[]): Promise<Chat> => {
   let containsChat: Chat[] | Chat | undefined = await getChatsByIdUser(
     usersIds[1]
   );
@@ -29,7 +30,10 @@ export const createChat = async (usersIds: string[]): Promise<void> => {
   );
 
   if (containsChat) {
-    return;
+    return {
+      ...containsChat,
+      created: false
+    };
   }
 
   const chat = RNdatabase().ref('/chats').push();
@@ -39,14 +43,20 @@ export const createChat = async (usersIds: string[]): Promise<void> => {
   const user1 = await database.user.getById(usersIds[1]);
   delete user1.email;
 
-  await chat.set({
+  const chatCreated: Chat = {
     usersIds: {
       [usersIds[0]]: { ...user1, userLoggedId: user0.id },
       [usersIds[1]]: { ...user0, userLoggedId: user1.id }
     },
-    id: chat.key,
+    id: String(chat.key),
     lastMessage: {
-      message: 'Inicie a conversa...'
+      message: 'Inicie a conversa...',
+      date: '',
+      userId: ''
     }
-  });
+  };
+
+  await chat.set(chatCreated);
+
+  return { ...chatCreated, created: true };
 };

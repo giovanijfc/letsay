@@ -4,4 +4,5 @@ export interface Chat {
   id: string;
   lastMessage: LastMessagePreview;
   usersIds: unknown;
+  created?: boolean | false;
 }

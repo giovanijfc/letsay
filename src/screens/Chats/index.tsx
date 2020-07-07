@@ -13,10 +13,7 @@ import FloatingButton from '~/components/atoms/FloatingButton';
 import Text from '~/components/atoms/Text';
 import CenterLoader from '~/components/atoms/CenterLoader';
 
-import {
-  getAllChatsByIdUserRequest,
-  onAddNewChat
-} from '~/redux/actions/chats';
+import { onAddNewChat } from '~/redux/actions/chats';
 
 import COLORS from '~/utils/colors';
 import { getOtherUserPreviewChat } from '~/utils/chat';
@@ -31,8 +28,6 @@ void IconAntDesign.loadFont();
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 void MaterialCommunityIcons.loadFont();
 
-let chatAddListeningCreated: string | undefined = undefined;
-
 const Chats: React.FC = () => {
   const { chats } = useSelector((state: RootState) => state);
 
@@ -41,17 +36,14 @@ const Chats: React.FC = () => {
 
   useLayoutEffect(() => {
     const userLoggedId = auth().currentUser?.uid;
-    dispatch(getAllChatsByIdUserRequest(userLoggedId || ''));
+    //dispatch(getAllChatsByIdUserRequest(userLoggedId || ''));
 
     RNdatabase()
       .ref('/chats')
-      .orderByChild(`/usersIds/${userLoggedId || ''}`)
+      .orderByChild(`/usersIds/${userLoggedId || ''}/userLoggedId`)
+      .equalTo(userLoggedId || '')
       .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-        if (chatAddListeningCreated) {
-          dispatch(onAddNewChat(snapshot.val()));
-        }
-
-        chatAddListeningCreated = 'CREATED';
+        dispatch(onAddNewChat(snapshot.val()));
       });
 
     return () => {
