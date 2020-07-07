@@ -1,5 +1,5 @@
-import React, { memo } from 'react';
-import { View } from 'react-native';
+import React, { memo, useState } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 
 import Text from '~/components/atoms/Text';
 
@@ -11,12 +11,20 @@ import * as Styled from './styles';
 interface Props {
   name: string | '';
   uid: string | '';
-  onPress?(uid: string): void;
+  onPress?(uid: string): boolean | false;
 }
 
 const ProfileItem: React.FC<Props> = ({ name, uid, onPress }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
-    <Styled.Container onPress={() => onPress?.(uid)}>
+    <Styled.Container
+      onPress={async () => {
+        setIsLoading(true);
+        await Promise.resolve(onPress?.(uid));
+        setIsLoading(false);
+      }}
+    >
       <View
         style={{
           width: 70,
@@ -34,6 +42,12 @@ const ProfileItem: React.FC<Props> = ({ name, uid, onPress }) => {
       >
         {name}
       </Text>
+
+      {isLoading && (
+        <Styled.WrapperEnd>
+          <ActivityIndicator size='small' color='white' />
+        </Styled.WrapperEnd>
+      )}
     </Styled.Container>
   );
 };

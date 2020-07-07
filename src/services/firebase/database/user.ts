@@ -44,3 +44,12 @@ export const getAll = async (): Promise<User[]> => {
 
   return users;
 };
+
+export const getById = async (id: string): Promise<User> => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const user: User = await (
+    await database().ref(`/users/${id}`).once('value')
+  ).val();
+
+  return user;
+};

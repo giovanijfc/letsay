@@ -14,3 +14,8 @@ export const Container = styled.TouchableOpacity`
   border-bottom-color: ${COLORS.separator};
   border-bottom-width: 2;
 `;
+
+export const WrapperEnd = styled.View`
+  width: 100%;
+  justify-content: flex-end;
+`;

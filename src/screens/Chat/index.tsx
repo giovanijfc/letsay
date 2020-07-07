@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 
 import Message from '~/components/atoms/Message';
 
@@ -11,10 +11,25 @@ import COLORS from '~/utils/colors';
 import * as Styled from './styles';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import { User } from '~/models/user';
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
 
-const Chat: React.FC = () => {
+interface Props {
+  route: Route;
+}
+
+interface Route {
+  params: Params;
+}
+
+interface Params {
+  otherUser: User;
+}
+
+const Chat: React.FC<Props> = ({ route }) => {
+  const [otherUser] = useState(route.params.otherUser);
+
   useLayoutEffect(() => {
     setStatusBar(COLORS.separator, true);
   }, []);
@@ -22,7 +37,7 @@ const Chat: React.FC = () => {
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
-        <Header />
+        <Header name={otherUser.username} />
 
         <Message from={'userLogged'} />
         <Message from={'useraLogged'} />

@@ -10,7 +10,11 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
 
-const Header: React.FC = () => {
+interface Props {
+  name: string;
+}
+
+const Header: React.FC<Props> = ({ name }) => {
   const navigation = useNavigation();
 
   const handleClickBack = () => {
@@ -24,7 +28,7 @@ const Header: React.FC = () => {
       </TouchableOpacity>
 
       <Text semiBold extraRegular color='white'>
-        GeoGeo
+        {name}
       </Text>
 
       <View
