@@ -12,6 +12,8 @@ export const GET_ALL_CHATS_BY_ID_USER_SUCCESS =
   'GET_ALL_CHATS_BY_ID_USER_SUCCESS';
 export const GET_ALL_CHATS_BY_ID_USER_FAIL = 'GET_ALL_CHATS_BY_ID_USER_FAIL';
 
+export const ADD_NEW_CHAT = 'ADD_NEW_CHAT';
+
 const getAllChatsByIdUser = (): ChatsActionTypes => ({
   type: GET_ALL_CHATS_BY_ID_USER
 });
@@ -24,6 +26,11 @@ const getAllChatsByIdUserSuccess = (chats: Chat[]): ChatsActionTypes => ({
 const getAllChatsByIdUserFail = (fail: string): ChatsActionTypes => ({
   type: GET_ALL_CHATS_BY_ID_USER_FAIL,
   fail
+});
+
+export const onAddNewChat = (chat: Chat): ChatsActionTypes => ({
+  type: ADD_NEW_CHAT,
+  newChat: chat
 });
 
 export const getAllChatsByIdUserRequest = (

@@ -1,7 +1,8 @@
 import {
   GET_ALL_CHATS_BY_ID_USER,
   GET_ALL_CHATS_BY_ID_USER_FAIL,
-  GET_ALL_CHATS_BY_ID_USER_SUCCESS
+  GET_ALL_CHATS_BY_ID_USER_SUCCESS,
+  ADD_NEW_CHAT
 } from '~/redux/actions/chats';
 
 import { ChatsState, ChatsActionTypes } from '~/redux/actions/chats/types';
@@ -40,6 +41,14 @@ const user = (state = initialState, action: ChatsActionTypes): ChatsState => {
           ...state.getAllChatsByIdUser,
           isLoading: false,
           fail: action.fail
+        }
+      };
+    case ADD_NEW_CHAT:
+      return {
+        ...state,
+        getAllChatsByIdUser: {
+          ...state.getAllChatsByIdUser,
+          success: [...state.getAllChatsByIdUser?.success, action.newChat]
         }
       };
     default:

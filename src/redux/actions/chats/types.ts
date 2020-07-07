@@ -2,7 +2,8 @@ import { Chat } from '~/models/chat';
 import {
   GET_ALL_CHATS_BY_ID_USER,
   GET_ALL_CHATS_BY_ID_USER_FAIL,
-  GET_ALL_CHATS_BY_ID_USER_SUCCESS
+  GET_ALL_CHATS_BY_ID_USER_SUCCESS,
+  ADD_NEW_CHAT
 } from '.';
 
 interface getAllChatsByIdUser {
@@ -19,6 +20,11 @@ interface getAllChatsByIdUserFail {
   fail: string;
 }
 
+interface addNewChat {
+  type: typeof ADD_NEW_CHAT;
+  newChat: Chat;
+}
+
 export interface ChatsState {
   getAllChatsByIdUser: {
     success?: Chat[] | [];
@@ -30,4 +36,5 @@ export interface ChatsState {
 export type ChatsActionTypes =
   | getAllChatsByIdUser
   | getAllChatsByIdUserFail
-  | getAllChatsByIdUserSuccess;
+  | getAllChatsByIdUserSuccess
+  | addNewChat;

@@ -9,7 +9,7 @@ export const getChatsByIdUser = async (
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const chats: Chat[] = await RNdatabase()
     .ref('/chats')
-    .orderByChild(`/usersIds/${userLoggedId}/otherUserId/`)
+    .orderByChild(`/usersIds/${userLoggedId}/userLoggedId/`)
     .equalTo(userLoggedId)
     .once('value')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -41,10 +41,12 @@ export const createChat = async (usersIds: string[]): Promise<void> => {
 
   await chat.set({
     usersIds: {
-      [usersIds[0]]: { ...user1, otherUserId: user0.id },
-      [usersIds[1]]: { ...user0, otherUserId: user1.id }
+      [usersIds[0]]: { ...user1, userLoggedId: user0.id },
+      [usersIds[1]]: { ...user0, userLoggedId: user1.id }
     },
     id: chat.key,
-    lastMessage: ''
+    lastMessage: {
+      message: 'Inicie a conversa...'
+    }
   });
 };

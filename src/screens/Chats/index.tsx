@@ -3,12 +3,20 @@ import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { FlatList } from 'react-native';
+import RNdatabase, {
+  FirebaseDatabaseTypes
+} from '@react-native-firebase/database';
 
 import ChatItem from '~/components/molecules/ChatItem';
 
 import FloatingButton from '~/components/atoms/FloatingButton';
 import Text from '~/components/atoms/Text';
 import CenterLoader from '~/components/atoms/CenterLoader';
+
+import {
+  getAllChatsByIdUserRequest,
+  onAddNewChat
+} from '~/redux/actions/chats';
 
 import COLORS from '~/utils/colors';
 import { getOtherUserPreviewChat } from '~/utils/chat';
@@ -21,8 +29,9 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 void IconAntDesign.loadFont();
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getAllChatsByIdUserRequest } from '~/redux/actions/chats';
 void MaterialCommunityIcons.loadFont();
+
+let chatAddListeningCreated: string | undefined = undefined;
 
 const Chats: React.FC = () => {
   const { chats } = useSelector((state: RootState) => state);
@@ -31,7 +40,23 @@ const Chats: React.FC = () => {
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
-    dispatch(getAllChatsByIdUserRequest(auth().currentUser?.uid || ''));
+    const userLoggedId = auth().currentUser?.uid;
+    dispatch(getAllChatsByIdUserRequest(userLoggedId || ''));
+
+    RNdatabase()
+      .ref('/chats')
+      .orderByChild(`/usersIds/${userLoggedId || ''}`)
+      .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+        if (chatAddListeningCreated) {
+          dispatch(onAddNewChat(snapshot.val()));
+        }
+
+        chatAddListeningCreated = 'CREATED';
+      });
+
+    return () => {
+      RNdatabase().ref('/chats').off();
+    };
   }, []);
 
   const onClickNewMessageHandler = () => {

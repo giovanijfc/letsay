@@ -33,8 +33,10 @@ const ChatItem: React.FC<Props> = ({ otherUser, onPress, lastMessage }) => {
             {otherUser.username}
           </Text>
           <Text small color={COLORS.gray600}>
-            {lastMessage?.date &&
-              new Date(lastMessage.date).getDate().toString()}
+            {lastMessage.message === 'Inicie a conversa...'
+              ? 'Agora'
+              : lastMessage?.date &&
+                new Date(lastMessage.date).getDate().toString()}
           </Text>
         </Styled.WrapperHeaderInfo>
 
