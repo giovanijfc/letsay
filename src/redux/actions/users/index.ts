@@ -38,7 +38,6 @@ export const getAllUsersRequest = (): ThunkAction<
 
     dispatch(getAllUsersSuccess(users));
   } catch (error) {
-    console.log(error);
     const message = 'Error interno do servidor.';
 
     dispatch(getAllUsersFail(message));

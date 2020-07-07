@@ -1,46 +1,38 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { FlatList } from 'react-native';
 
 import ChatItem from '~/components/molecules/ChatItem';
 
 import FloatingButton from '~/components/atoms/FloatingButton';
 import Text from '~/components/atoms/Text';
+import CenterLoader from '~/components/atoms/CenterLoader';
 
 import COLORS from '~/utils/colors';
+import { getOtherUserPreviewChat } from '~/utils/chat';
 
 import * as Styled from './styles';
+
+import { RootState } from '~/redux/reducers';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 void IconAntDesign.loadFont();
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getChatsByIdUser } from '~/services/firebase/database/chat';
-import { Chat } from '~/models/chat';
-import { FlatList } from 'react-native';
-import { getOtherUserPreviewChat } from '~/utils/chat';
+import { getAllChatsByIdUserRequest } from '~/redux/actions/chats';
 void MaterialCommunityIcons.loadFont();
 
 const Chats: React.FC = () => {
-  const [chats, setChats] = useState<Chat[] | undefined>(undefined);
+  const { chats } = useSelector((state: RootState) => state);
 
   const navigation = useNavigation();
-
-  useEffect(() => {
-    void getChatsRequest();
-  }, []);
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
-    console.log(chats);
-  }, [chats]);
-
-  const getChatsRequest = async () => {
-    const userLoggedId: string | undefined = auth().currentUser?.uid;
-
-    const chats = await getChatsByIdUser(userLoggedId || '');
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    setChats(chats);
-  };
+    dispatch(getAllChatsByIdUserRequest(auth().currentUser?.uid || ''));
+  }, []);
 
   const onClickNewMessageHandler = () => {
     navigation.navigate('NewChat');
@@ -71,35 +63,40 @@ const Chats: React.FC = () => {
             onPress={onClickSignoutHandler}
           />
         </Styled.AreaHeader>
+        {chats.getAllChatsByIdUser.isLoading ? (
+          <CenterLoader />
+        ) : (
+          <>
+            <FlatList
+              data={chats.getAllChatsByIdUser.success}
+              renderItem={({ item }) => {
+                const otherUser = getOtherUserPreviewChat(item);
 
-        <FlatList
-          data={chats}
-          renderItem={({ item }) => {
-            const otherUser = getOtherUserPreviewChat(item);
+                return (
+                  <ChatItem
+                    lastMessage={item.lastMessage}
+                    onPress={onPressChatItemHandler}
+                    otherUser={otherUser}
+                  />
+                );
+              }}
+            />
 
-            return (
-              <ChatItem
-                lastMessage={item.lastMessage}
-                onPress={onPressChatItemHandler}
-                otherUser={otherUser}
-              />
-            );
-          }}
-        />
-
-        <FloatingButton
-          style={{
-            width: 60,
-            height: 60,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          bottom={20}
-          right={15}
-          onPress={onClickNewMessageHandler}
-        >
-          <IconAntDesign name='plus' color={COLORS.secondary} size={34} />
-        </FloatingButton>
+            <FloatingButton
+              style={{
+                width: 60,
+                height: 60,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              bottom={20}
+              right={15}
+              onPress={onClickNewMessageHandler}
+            >
+              <IconAntDesign name='plus' color={COLORS.secondary} size={34} />
+            </FloatingButton>
+          </>
+        )}
       </Styled.Container>
     </Styled.SafeAreaView>
   );
