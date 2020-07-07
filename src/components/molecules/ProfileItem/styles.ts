@@ -16,6 +16,6 @@ export const Container = styled.TouchableOpacity`
 `;
 
 export const WrapperEnd = styled.View`
-  width: 100%;
-  justify-content: flex-end;
+  flex: 1;
+  align-items: flex-end;
 `;
