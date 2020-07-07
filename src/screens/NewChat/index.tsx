@@ -16,7 +16,6 @@ import { getAllUsersRequest } from '~/redux/actions/users';
 import database from '~/services/firebase/database';
 
 import SPACING from '~/utils/spacing';
-import { getIdOtherUserByChat } from '~/utils/chat';
 
 import { RootState } from '~/redux/reducers';
 import { User } from '~/models/user';
@@ -25,7 +24,6 @@ import { Chat } from '~/models/chat';
 import * as Styled from './styles';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import { getById } from '~/services/firebase/database/user';
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
 
@@ -62,13 +60,14 @@ const NewMessage: React.FC = () => {
     const userLoggedId: string | undefined = auth().currentUser?.uid;
     await database.chat.createChat([uid, userLoggedId || '']);
     const chats = await database.chat.getChatsByIdUser(userLoggedId || '');
-    const chatToRedirect: Chat | undefined = chats.find(
-      chat => chat.usersIds[userLoggedId] === uid
+    const chatToRedirect: Chat | unknown = chats.find(
+      chat => chat.usersIds[userLoggedId].id === uid
     );
-    const otherUserIdChat: string = getIdOtherUserByChat(chatToRedirect);
-    const otherUser: User = await getById(otherUserIdChat);
 
-    navigation.navigate('Chat', { otherUser });
+    navigation.navigate('Chat', {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      otherUser: chatToRedirect.usersIds[userLoggedId]
+    });
   };
 
   if (getAllUsers.isLoading) {
