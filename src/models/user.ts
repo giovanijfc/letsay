@@ -5,3 +5,8 @@ export interface User {
   phone: string;
   password: string;
 }
+
+export interface UserPreviewChat {
+  id: string;
+  username: string;
+}

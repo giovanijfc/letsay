@@ -9,7 +9,11 @@ import SPACING from '~/utils/spacing';
 
 import * as Styled from './styles';
 
-const ChatItem: React.FC = () => {
+interface Props {
+  name: string;
+}
+
+const ChatItem: React.FC<Props> = ({ name }) => {
   const navigation = useNavigation();
 
   return (
@@ -25,7 +29,7 @@ const ChatItem: React.FC = () => {
       <Styled.AreaInfo>
         <Styled.WrapperHeaderInfo>
           <Text small semiBold color={COLORS.gray600}>
-            GeoGeo
+            {name}
           </Text>
           <Text small color={COLORS.gray600}>
             10:24PM

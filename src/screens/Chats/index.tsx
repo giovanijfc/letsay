@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
@@ -15,10 +15,29 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 void IconAntDesign.loadFont();
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getChatsByIdUser } from '~/services/firebase/database/chat';
+import { Chat } from '~/models/chat';
+import { FlatList } from 'react-native';
+import { getOtherUserPreviewChat } from '~/utils/chat';
 void MaterialCommunityIcons.loadFont();
 
 const Chats: React.FC = () => {
+  const [chats, setChats] = useState<Chat[] | undefined>(undefined);
+
   const navigation = useNavigation();
+
+  console.log(chats);
+
+  useEffect(() => {
+    void getChatsRequest();
+  }, []);
+
+  const getChatsRequest = async () => {
+    const userLoggedId: string | undefined = auth().currentUser?.uid;
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    setChats(await getChatsByIdUser(userLoggedId || ''));
+  };
 
   const onClickNewMessageHandler = () => {
     navigation.navigate('NewChat');
@@ -44,11 +63,14 @@ const Chats: React.FC = () => {
           />
         </Styled.AreaHeader>
 
-        <ChatItem />
-        <ChatItem />
-        <ChatItem />
-        <ChatItem />
-        <ChatItem />
+        <FlatList
+          data={chats}
+          renderItem={({ item }) => {
+            const { username } = getOtherUserPreviewChat(item);
+
+            return <ChatItem name={username} />;
+          }}
+        />
 
         <FloatingButton
           style={{
