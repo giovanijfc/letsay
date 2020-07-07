@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
@@ -26,17 +26,20 @@ const Chats: React.FC = () => {
 
   const navigation = useNavigation();
 
-  console.log(chats);
-
   useEffect(() => {
     void getChatsRequest();
   }, []);
 
+  useLayoutEffect(() => {
+    console.log(chats);
+  }, [chats]);
+
   const getChatsRequest = async () => {
     const userLoggedId: string | undefined = auth().currentUser?.uid;
 
+    const chats = await getChatsByIdUser(userLoggedId || '');
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    setChats(await getChatsByIdUser(userLoggedId || ''));
+    setChats(chats);
   };
 
   const onClickNewMessageHandler = () => {
@@ -45,6 +48,12 @@ const Chats: React.FC = () => {
 
   const onClickSignoutHandler = async () => {
     await auth().signOut();
+  };
+
+  const onPressChatItemHandler = (otherUser: unknown) => {
+    navigation.navigate('Chat', {
+      otherUser
+    });
   };
 
   return (
@@ -66,9 +75,15 @@ const Chats: React.FC = () => {
         <FlatList
           data={chats}
           renderItem={({ item }) => {
-            const { username } = getOtherUserPreviewChat(item);
+            const otherUser = getOtherUserPreviewChat(item);
 
-            return <ChatItem name={username} />;
+            return (
+              <ChatItem
+                lastMessage={item.lastMessage}
+                onPress={onPressChatItemHandler}
+                otherUser={otherUser}
+              />
+            );
           }}
         />
 

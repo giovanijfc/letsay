@@ -9,4 +9,5 @@ export interface User {
 export interface UserPreviewChat {
   id: string;
   username: string;
+  otherUserId: string;
 }

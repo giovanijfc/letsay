@@ -90,7 +90,7 @@ const NewMessage: React.FC = () => {
           semiBold
           extraBig
         >
-          Nova Mensagem
+          Novo chat
         </Text>
 
         <Input

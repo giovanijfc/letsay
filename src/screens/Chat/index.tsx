@@ -28,7 +28,7 @@ interface Params {
 }
 
 const Chat: React.FC<Props> = ({ route }) => {
-  const [otherUser] = useState(route.params.otherUser);
+  const [otherUser] = useState(route?.params?.otherUser);
 
   useLayoutEffect(() => {
     setStatusBar(COLORS.separator, true);
