@@ -52,9 +52,7 @@ const user = (state = initialState, action: ChatsActionTypes): ChatsState => {
         }
       };
     default:
-      return {
-        ...initialState
-      };
+      return state;
   }
 };
 
