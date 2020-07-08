@@ -12,8 +12,13 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
 
-const Footer: React.FC = () => {
+interface Props {
+  onPressSendMessage(message: string, callbackFinish: unknown): void;
+}
+
+const Footer: React.FC<Props> = ({ onPressSendMessage }) => {
   const [newMessage, setNewMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <SafeAreaView>
@@ -22,12 +27,23 @@ const Footer: React.FC = () => {
           placeholder='Escreva uma mensagem...'
           style={{ width: '80%' }}
           defaultValue={newMessage}
-          onChange={message => setNewMessage(message)}
+          onChange={message => !isLoading && setNewMessage(message)}
         />
 
         <Button
+          isLoading={isLoading}
           style={{ borderRadius: 100, width: 50, height: 50 }}
-          onPress={() => console.log('send message!')}
+          onPress={() => {
+            if (newMessage.length === 0) {
+              return;
+            }
+
+            setIsLoading(true);
+            onPressSendMessage(newMessage, () => {
+              setIsLoading(false);
+              setNewMessage('');
+            });
+          }}
         >
           <IconAntDesign name='arrowright' color={COLORS.secondary} size={24} />
         </Button>

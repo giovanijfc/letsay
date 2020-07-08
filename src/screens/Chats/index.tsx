@@ -26,6 +26,7 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 void IconAntDesign.loadFont();
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Chat } from '~/models/chat';
 void MaterialCommunityIcons.loadFont();
 
 const Chats: React.FC = () => {
@@ -59,9 +60,10 @@ const Chats: React.FC = () => {
     await auth().signOut();
   };
 
-  const onPressChatItemHandler = (otherUser: unknown) => {
+  const onPressChatItemHandler = (otherUser: unknown, chat: Chat) => {
     navigation.navigate('Chat', {
-      otherUser
+      otherUser,
+      chat
     });
   };
 
@@ -94,6 +96,7 @@ const Chats: React.FC = () => {
                     lastMessage={item.lastMessage}
                     onPress={onPressChatItemHandler}
                     otherUser={otherUser}
+                    chat={item}
                   />
                 );
               }}

@@ -66,7 +66,8 @@ const NewMessage: React.FC = () => {
 
     navigation.navigate('Chat', {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      otherUser: chatToRedirect.usersIds[userLoggedId]
+      otherUser: chatToRedirect.usersIds[userLoggedId],
+      chat: chatToRedirect
     });
   };
 
