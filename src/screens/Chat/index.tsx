@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
 import auth from '@react-native-firebase/auth';
 import RNdatabase, {
   FirebaseDatabaseTypes
@@ -46,6 +46,8 @@ const Chat: React.FC<Props> = ({ route }) => {
   const [messages, setMessages] = useState<MessageModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const flatRef = useRef();
+
   useLayoutEffect(() => {
     setStatusBar(COLORS.separator, true);
 
@@ -53,6 +55,11 @@ const Chat: React.FC<Props> = ({ route }) => {
       RNdatabase().ref('/messages').off();
     };
   }, []);
+
+  useLayoutEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    flatRef?.current?.scrollToEnd();
+  }, [messages]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -70,10 +77,11 @@ const Chat: React.FC<Props> = ({ route }) => {
           .orderByChild('chatId')
           .equalTo(chat.id)
           .limitToLast(1)
-          .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) =>
+          .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            setMessages(prevMessages => [...prevMessages, snapshot.val()])
-          );
+            setMessages(prevMessages => [...prevMessages, snapshot.val()]);
+          });
+
         setIsLoading(false);
       });
 
@@ -113,7 +121,7 @@ const Chat: React.FC<Props> = ({ route }) => {
           <CenterLoader />
         ) : (
           <FlatList
-            inverted
+            ref={flatRef}
             showsVerticalScrollIndicator={false}
             data={messages}
             renderItem={({ item }) => (
