@@ -1,5 +1,8 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import auth from '@react-native-firebase/auth';
+import RNdatabase, {
+  FirebaseDatabaseTypes
+} from '@react-native-firebase/database';
 
 import Message from '~/components/atoms/Message';
 
@@ -18,6 +21,8 @@ import { Message as MessageModel } from '~/models/message';
 import * as Styled from './styles';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import { FlatList } from 'react-native-gesture-handler';
+import CenterLoader from '~/components/atoms/CenterLoader';
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
@@ -38,9 +43,43 @@ interface Params {
 const Chat: React.FC<Props> = ({ route }) => {
   const [otherUser] = useState(route?.params?.otherUser);
   const [chat] = useState(route?.params?.chat);
+  const [messages, setMessages] = useState<MessageModel[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useLayoutEffect(() => {
     setStatusBar(COLORS.separator, true);
+
+    return () => {
+      RNdatabase().ref('/messages').off();
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    void RNdatabase()
+      .ref('/messages')
+      .orderByChild('chatId')
+      .equalTo(chat.id)
+      .once('value', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+        if (snapshot.val()) {
+          setMessages(Object.values(snapshot.val()));
+        }
+
+        RNdatabase()
+          .ref('/messages')
+          .orderByChild('chatId')
+          .equalTo(chat.id)
+          .limitToLast(1)
+          .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+            setMessages(prevMessages => [...prevMessages, snapshot.val()])
+          );
+        setIsLoading(false);
+      });
+
+    return () => {
+      RNdatabase().ref('/messages').off();
+    };
   }, []);
 
   const onPressSendMessageHandler = async (
@@ -63,21 +102,31 @@ const Chat: React.FC<Props> = ({ route }) => {
     }
   };
 
+  const userLoggedId = auth().currentUser?.uid;
+
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
         <Header name={otherUser.username} />
 
-        <Message from={'userLogged'} />
-        <Message from={'useraLogged'} />
-        <Message from={'userLogged'} />
-        <Message from={'useraLogged'} />
-        <Message from={'userLogged'} />
-        <Message from={'userLogged'} />
-        <Message from={'useraLogged'} />
-      </Styled.Container>
+        {isLoading ? (
+          <CenterLoader />
+        ) : (
+          <FlatList
+            inverted
+            showsVerticalScrollIndicator={false}
+            data={messages}
+            renderItem={({ item }) => (
+              <Message
+                message={item.message}
+                from={item.userId === userLoggedId ? 'userLogged' : 'otherUser'}
+              />
+            )}
+          />
+        )}
 
-      <Footer onPressSendMessage={onPressSendMessageHandler} />
+        <Footer onPressSendMessage={onPressSendMessageHandler} />
+      </Styled.Container>
     </Styled.SafeAreaView>
   );
 };

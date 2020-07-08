@@ -7,6 +7,6 @@ export const Container = styled.View`
   align-items: center;
   justify-content: space-between;
   padding-top: ${SPACING.default};
-  padding-bottom: ${SPACING.default};
-  margin-bottom: ${SPACING.huge};
+  padding-bottom: ${SPACING.small};
+  margin-bottom: ${SPACING.default};
 `;

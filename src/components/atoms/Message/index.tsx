@@ -9,14 +9,15 @@ import * as Styled from './styles';
 
 interface Props {
   from: string | '';
+  message: string | '';
 }
 
-const Message: React.FC<Props> = ({ from }) => {
+const Message: React.FC<Props> = ({ from, message }) => {
   return (
     <Styled.Container from={from}>
       <Styled.TagMessage from={from}>
         <Text regular semiBold color={COLORS.textMessage}>
-          Amanhã tenho serviço cedo
+          {message}
         </Text>
       </Styled.TagMessage>
     </Styled.Container>

@@ -87,6 +87,7 @@ const Chats: React.FC = () => {
         ) : (
           <>
             <FlatList
+              showsHorizontalScrollIndicator={false}
               data={chats.getAllChatsByIdUser.success}
               renderItem={({ item }) => {
                 const otherUser = getOtherUserPreviewChat(item);

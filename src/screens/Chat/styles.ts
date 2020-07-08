@@ -9,7 +9,7 @@ export const SafeAreaView = styled.SafeAreaView`
 `;
 
 export const Container = styled.KeyboardAvoidingView`
-  flex: 1;
+  height: 100%;
   padding-left: ${SPACING.high};
   padding-right: ${SPACING.high};
   background: ${COLORS.secondary};
