@@ -24,7 +24,9 @@ export const showNotification = (remoteMessage: Notification): void => {
       title: notification?.title || '',
       message: notification?.body || '',
       playSound: false,
-      soundName: 'default'
+      soundName: 'default',
+      largeIcon: undefined,
+      smallIcon: 'logo_foreground'
     });
   }
 };
