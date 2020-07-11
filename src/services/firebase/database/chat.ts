@@ -50,6 +50,7 @@ export const createChat = async (usersIds: string[]): Promise<Chat> => {
       [usersIds[1]]: { ...user0, userLoggedId: user1.id }
     },
     id: String(chats.key),
+    dateCreated: String(Date.now()),
     lastMessage: {
       message: 'Inicie a conversa...',
       date: '',

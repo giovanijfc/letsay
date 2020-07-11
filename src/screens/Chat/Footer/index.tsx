@@ -24,7 +24,7 @@ const Footer: React.FC<Props> = ({ onPressSendMessage }) => {
     <SafeAreaView>
       <Styled.Container>
         <Input
-          placeholder='Escreva uma mensagem...'
+          placeholder='Digite algo...'
           style={{ width: '80%' }}
           defaultValue={newMessage}
           onChange={message => !isLoading && setNewMessage(message)}

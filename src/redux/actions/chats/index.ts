@@ -1,5 +1,8 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import RNdatabase, {
+  FirebaseDatabaseTypes
+} from '@react-native-firebase/database';
 
 import { ChatsActionTypes } from './types';
 import { RootState } from '~/redux/reducers/index';
@@ -42,6 +45,15 @@ export const getAllChatsByIdUserRequest = (
     const chats: Chat[] = await database.chat.getChatsByIdUser(idUser);
 
     dispatch(getAllChatsByIdUserSuccess(chats));
+
+    RNdatabase()
+      .ref('/chats')
+      .orderByChild(`/usersIds/${idUser}/userLoggedId`)
+      .equalTo(idUser)
+      .limitToLast(1)
+      .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+        dispatch(onAddNewChat(snapshot.val()));
+      });
   } catch (error) {
     const message = 'Error interno do servidor.';
 

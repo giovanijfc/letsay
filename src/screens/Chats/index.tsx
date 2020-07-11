@@ -3,9 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { FlatList } from 'react-native';
-import RNdatabase, {
-  FirebaseDatabaseTypes
-} from '@react-native-firebase/database';
+import RNdatabase from '@react-native-firebase/database';
 
 import ChatItem from '~/components/molecules/ChatItem';
 
@@ -13,7 +11,7 @@ import FloatingButton from '~/components/atoms/FloatingButton';
 import Text from '~/components/atoms/Text';
 import CenterLoader from '~/components/atoms/CenterLoader';
 
-import { onAddNewChat } from '~/redux/actions/chats';
+import { getAllChatsByIdUserRequest } from '~/redux/actions/chats';
 
 import COLORS from '~/utils/colors';
 import { getOtherUserPreviewChat } from '~/utils/chat';
@@ -37,15 +35,7 @@ const Chats: React.FC = () => {
 
   useLayoutEffect(() => {
     const userLoggedId = auth().currentUser?.uid;
-    //dispatch(getAllChatsByIdUserRequest(userLoggedId || ''));
-
-    RNdatabase()
-      .ref('/chats')
-      .orderByChild(`/usersIds/${userLoggedId || ''}/userLoggedId`)
-      .equalTo(userLoggedId || '')
-      .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-        dispatch(onAddNewChat(snapshot.val()));
-      });
+    dispatch(getAllChatsByIdUserRequest(userLoggedId || ''));
 
     return () => {
       RNdatabase().ref('/chats').off();

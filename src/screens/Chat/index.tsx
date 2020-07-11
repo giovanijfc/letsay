@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import auth from '@react-native-firebase/auth';
 import RNdatabase, {
   FirebaseDatabaseTypes
@@ -13,6 +13,7 @@ import database from '~/services/firebase/database';
 
 import { setStatusBar } from '~/utils/statusBar';
 import COLORS from '~/utils/colors';
+import { orderByTimestamp } from '~/utils/message';
 
 import { User } from '~/models/user';
 import { Chat as ChatModel } from '~/models/chat';
@@ -58,10 +59,12 @@ const Chat: React.FC<Props> = ({ route }) => {
 
   useLayoutEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    flatRef?.current?.scrollToEnd();
+    setTimeout(() => {
+      flatRef?.current?.scrollToEnd({ duration: 0, animated: true });
+    }, 100);
   }, [messages]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsLoading(true);
     void RNdatabase()
       .ref('/messages')
@@ -70,6 +73,8 @@ const Chat: React.FC<Props> = ({ route }) => {
       .once('value', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
         if (snapshot.val()) {
           setMessages(Object.values(snapshot.val()));
+        } else {
+          setIsLoading(false);
         }
 
         RNdatabase()
@@ -79,10 +84,22 @@ const Chat: React.FC<Props> = ({ route }) => {
           .limitToLast(1)
           .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            setMessages(prevMessages => [...prevMessages, snapshot.val()]);
-          });
 
-        setIsLoading(false);
+            setIsLoading(false);
+
+            return setMessages(prevMessages =>
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+              prevMessages.length > 0
+                ? [
+                    ...prevMessages.filter(
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                      ({ id }) => id !== snapshot.val().id
+                    ),
+                    snapshot.val()
+                  ].sort(orderByTimestamp)
+                : [snapshot.val()]
+            );
+          });
       });
 
     return () => {

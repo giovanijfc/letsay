@@ -44,11 +44,26 @@ const user = (state = initialState, action: ChatsActionTypes): ChatsState => {
         }
       };
     case ADD_NEW_CHAT:
+      if (state.getAllChatsByIdUser?.success?.length > 0) {
+        return {
+          ...state,
+          getAllChatsByIdUser: {
+            ...state.getAllChatsByIdUser,
+            success: [
+              ...state.getAllChatsByIdUser?.success?.filter(
+                ({ id }) => id !== action.newChat.id
+              ),
+              action.newChat
+            ]
+          }
+        };
+      }
+
       return {
         ...state,
         getAllChatsByIdUser: {
           ...state.getAllChatsByIdUser,
-          success: [...state.getAllChatsByIdUser?.success, action.newChat]
+          success: [action.newChat]
         }
       };
     default:
