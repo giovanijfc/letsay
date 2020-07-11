@@ -8,15 +8,20 @@ import Chats from '~/screens/Chats';
 
 import { updateUserToken } from '~/services/firebase/database/user';
 
+import { Notification } from '~/models/notification';
+
 import * as Styled from './styles';
+import { showNotification } from '~/utils/notification';
 
 const Home: React.FC = () => {
   useEffect(() => {
     void checkPermission();
 
-    const listenerOnMessage = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
+    const listenerOnMessage = messaging().onMessage(
+      (remoteMessage: Notification) => {
+        showNotification(remoteMessage);
+      }
+    );
 
     return listenerOnMessage;
   }, []);

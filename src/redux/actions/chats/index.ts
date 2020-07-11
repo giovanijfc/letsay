@@ -61,7 +61,7 @@ export const getAllChatsByIdUserRequest = (
 
 export const onAddNewChatServiceStart = (
   idUser: string
-): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+): ThunkAction<void, RootState, unknown, Action<string>> => dispatch => {
   RNdatabase()
     .ref('/chats')
     .orderByChild(`/usersIds/${idUser}/userLoggedId`)
@@ -74,7 +74,7 @@ export const onAddNewChatServiceStart = (
 
 export const onUpdateChatServiceStart = (
   idUser: string
-): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+): ThunkAction<void, RootState, unknown, Action<string>> => dispatch => {
   RNdatabase()
     .ref('/chats')
     .orderByChild(`/usersIds/${idUser}/userLoggedId`)
