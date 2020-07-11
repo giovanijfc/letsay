@@ -53,3 +53,11 @@ export const getById = async (id: string): Promise<User> => {
 
   return user;
 };
+
+export const updateUserToken = async (
+  idUser: string,
+  token: string
+): Promise<void> => {
+  const userById = database().ref(`/users/${idUser}`);
+  await userById.update({ token });
+};

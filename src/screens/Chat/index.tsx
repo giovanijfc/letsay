@@ -61,7 +61,7 @@ const Chat: React.FC<Props> = ({ route }) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     setTimeout(() => {
       flatRef?.current?.scrollToEnd({ duration: 0, animated: true });
-    }, 100);
+    }, messages.length * 10);
   }, [messages]);
 
   useLayoutEffect(() => {
