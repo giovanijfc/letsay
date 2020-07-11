@@ -11,21 +11,25 @@ import FloatingButton from '~/components/atoms/FloatingButton';
 import Text from '~/components/atoms/Text';
 import CenterLoader from '~/components/atoms/CenterLoader';
 
-import { getAllChatsByIdUserRequest } from '~/redux/actions/chats';
+import {
+  getAllChatsByIdUserRequest,
+  onUpdateChatServiceStart,
+  onAddNewChatServiceStart
+} from '~/redux/actions/chats';
 
 import COLORS from '~/utils/colors';
 import { getOtherUserPreviewChat } from '~/utils/chat';
+import SPACING from '~/utils/spacing';
 
 import * as Styled from './styles';
 
 import { RootState } from '~/redux/reducers';
+import { Chat } from '~/models/chat';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 void IconAntDesign.loadFont();
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Chat } from '~/models/chat';
-import SPACING from '~/utils/spacing';
 void MaterialCommunityIcons.loadFont();
 
 const Chats: React.FC = () => {
@@ -35,8 +39,11 @@ const Chats: React.FC = () => {
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
-    const userLoggedId = auth().currentUser?.uid;
-    dispatch(getAllChatsByIdUserRequest(userLoggedId || ''));
+    const userLoggedId = auth().currentUser?.uid || '';
+    dispatch(getAllChatsByIdUserRequest(userLoggedId));
+
+    dispatch(onAddNewChatServiceStart(userLoggedId));
+    dispatch(onUpdateChatServiceStart(userLoggedId));
 
     return () => {
       RNdatabase().ref('/chats').off();

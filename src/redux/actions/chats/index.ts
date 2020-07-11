@@ -52,27 +52,35 @@ export const getAllChatsByIdUserRequest = (
     const chats: Chat[] = await database.chat.getChatsByIdUser(idUser);
 
     dispatch(getAllChatsByIdUserSuccess(chats));
-
-    RNdatabase()
-      .ref('/chats')
-      .orderByChild(`/usersIds/${idUser}/userLoggedId`)
-      .equalTo(idUser)
-      .limitToLast(1)
-      .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-        dispatch(onAddNewChat(snapshot.val()));
-      });
-
-    RNdatabase()
-      .ref('/chats')
-      .orderByChild(`/usersIds/${idUser}/userLoggedId`)
-      .equalTo(idUser)
-      .limitToLast(1)
-      .on('child_changed', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-        dispatch(updateChat(snapshot.val()));
-      });
   } catch (error) {
     const message = 'Error interno do servidor.';
 
     dispatch(getAllChatsByIdUserFail(message));
   }
+};
+
+export const onAddNewChatServiceStart = (
+  idUser: string
+): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+  RNdatabase()
+    .ref('/chats')
+    .orderByChild(`/usersIds/${idUser}/userLoggedId`)
+    .equalTo(idUser)
+    .limitToLast(1)
+    .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+      dispatch(onAddNewChat(snapshot.val()));
+    });
+};
+
+export const onUpdateChatServiceStart = (
+  idUser: string
+): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+  RNdatabase()
+    .ref('/chats')
+    .orderByChild(`/usersIds/${idUser}/userLoggedId`)
+    .equalTo(idUser)
+    .limitToLast(1)
+    .on('child_changed', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+      dispatch(updateChat(snapshot.val()));
+    });
 };
