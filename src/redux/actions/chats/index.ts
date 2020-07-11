@@ -17,6 +17,8 @@ export const GET_ALL_CHATS_BY_ID_USER_FAIL = 'GET_ALL_CHATS_BY_ID_USER_FAIL';
 
 export const ADD_NEW_CHAT = 'ADD_NEW_CHAT';
 
+export const UPDATE_CHAT = 'UPDATE_CHAT';
+
 const getAllChatsByIdUser = (): ChatsActionTypes => ({
   type: GET_ALL_CHATS_BY_ID_USER
 });
@@ -36,6 +38,11 @@ export const onAddNewChat = (chat: Chat): ChatsActionTypes => ({
   newChat: chat
 });
 
+export const updateChat = (chat: Chat): ChatsActionTypes => ({
+  type: UPDATE_CHAT,
+  updatedChat: chat
+});
+
 export const getAllChatsByIdUserRequest = (
   idUser: string
 ): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
@@ -53,6 +60,15 @@ export const getAllChatsByIdUserRequest = (
       .limitToLast(1)
       .on('child_added', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
         dispatch(onAddNewChat(snapshot.val()));
+      });
+
+    RNdatabase()
+      .ref('/chats')
+      .orderByChild(`/usersIds/${idUser}/userLoggedId`)
+      .equalTo(idUser)
+      .limitToLast(1)
+      .on('child_changed', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+        dispatch(updateChat(snapshot.val()));
       });
   } catch (error) {
     const message = 'Error interno do servidor.';

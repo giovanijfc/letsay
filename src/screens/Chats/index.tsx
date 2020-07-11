@@ -25,6 +25,7 @@ void IconAntDesign.loadFont();
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Chat } from '~/models/chat';
+import SPACING from '~/utils/spacing';
 void MaterialCommunityIcons.loadFont();
 
 const Chats: React.FC = () => {
@@ -78,6 +79,19 @@ const Chats: React.FC = () => {
           <>
             <FlatList
               showsHorizontalScrollIndicator={false}
+              ListEmptyComponent={
+                <Text
+                  style={{
+                    flex: 1,
+                    alignSelf: 'center',
+                    marginTop: SPACING.default
+                  }}
+                  color={COLORS.gray400}
+                  extraRegular
+                >
+                  Nenhum chat encontrado. :/
+                </Text>
+              }
               data={chats.getAllChatsByIdUser.success}
               renderItem={({ item }) => {
                 const otherUser = getOtherUserPreviewChat(item);

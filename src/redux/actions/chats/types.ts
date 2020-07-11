@@ -3,7 +3,8 @@ import {
   GET_ALL_CHATS_BY_ID_USER,
   GET_ALL_CHATS_BY_ID_USER_FAIL,
   GET_ALL_CHATS_BY_ID_USER_SUCCESS,
-  ADD_NEW_CHAT
+  ADD_NEW_CHAT,
+  UPDATE_CHAT
 } from '.';
 
 interface getAllChatsByIdUser {
@@ -25,6 +26,11 @@ interface addNewChat {
   newChat: Chat;
 }
 
+interface updateChat {
+  type: typeof UPDATE_CHAT;
+  updatedChat: Chat;
+}
+
 export interface ChatsState {
   getAllChatsByIdUser: {
     success?: Chat[] | [];
@@ -37,4 +43,5 @@ export type ChatsActionTypes =
   | getAllChatsByIdUser
   | getAllChatsByIdUserFail
   | getAllChatsByIdUserSuccess
-  | addNewChat;
+  | addNewChat
+  | updateChat;

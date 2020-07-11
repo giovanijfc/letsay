@@ -16,6 +16,7 @@ import { getAllUsersRequest } from '~/redux/actions/users';
 import database from '~/services/firebase/database';
 
 import SPACING from '~/utils/spacing';
+import COLORS from '~/utils/colors';
 
 import { RootState } from '~/redux/reducers';
 import { User } from '~/models/user';
@@ -103,6 +104,15 @@ const NewMessage: React.FC = () => {
 
         <FlatList
           data={name.length > 0 ? usersFindByName : getAllUsers.success}
+          ListEmptyComponent={
+            <Text
+              style={{ flex: 1, alignSelf: 'center', marginTop: SPACING.huge }}
+              color={COLORS.gray400}
+              extraRegular
+            >
+              Nenhum usuário encontrado. :/
+            </Text>
+          }
           renderItem={({ item }) => (
             <ProfileItem
               onPress={onPressProfileItemHandler}
