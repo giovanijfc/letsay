@@ -127,7 +127,7 @@ const Chat: React.FC<Props> = ({ route }) => {
 
     await database.message.createMessage(message);
 
-    if (!userLogged || 'token' in otherUser) {
+    if (!userLogged || !('token' in otherUser)) {
       const userLoggedUpdated: User = await getById(userLoggedId);
       const otherUserUpdated: User = await getById(otherUser.id);
 
