@@ -4,25 +4,19 @@ import PushNotification from 'react-native-push-notification';
 import { Notification } from '~/models/notification';
 
 export const showNotification = (remoteMessage: Notification): void => {
-  console.log(remoteMessage);
+  const { data } = remoteMessage;
 
   if (Platform.OS === 'ios') {
-    const {
-      data: { notification }
-    } = remoteMessage;
-
     PushNotification.localNotification({
-      title: notification?.title || '',
-      message: notification?.body || '',
+      title: data?.title || '',
+      message: data?.body || '',
       playSound: false,
       soundName: 'default'
     });
   } else {
-    const { notification } = remoteMessage;
-
     PushNotification.localNotification({
-      title: notification?.title || '',
-      message: notification?.body || '',
+      title: data?.title || '',
+      message: data?.body || '',
       playSound: false,
       soundName: 'default',
       largeIcon: undefined,

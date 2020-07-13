@@ -3,8 +3,10 @@ import auth from '@react-native-firebase/auth';
 import RNdatabase, {
   FirebaseDatabaseTypes
 } from '@react-native-firebase/database';
+import { useSelector } from 'react-redux';
 
 import Message from '~/components/atoms/Message';
+import CenterLoader from '~/components/atoms/CenterLoader';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -18,12 +20,14 @@ import { orderByTimestamp } from '~/utils/message';
 import { User } from '~/models/user';
 import { Chat as ChatModel } from '~/models/chat';
 import { Message as MessageModel } from '~/models/message';
+import { RootState } from '~/redux/reducers';
 
 import * as Styled from './styles';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import { FlatList } from 'react-native-gesture-handler';
-import CenterLoader from '~/components/atoms/CenterLoader';
+import { getById } from '~/services/firebase/database/user';
+import { sendNotification } from '~/services/firebase/messaging/notification';
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 IconAntDesign.loadFont();
@@ -42,7 +46,8 @@ interface Params {
 }
 
 const Chat: React.FC<Props> = ({ route }) => {
-  const [otherUser] = useState(route?.params?.otherUser);
+  const [otherUser, setOtherUser] = useState(route?.params?.otherUser);
+  const [userLogged, setUserLogged] = useState<User | undefined>(undefined);
   const [chat] = useState(route?.params?.chat);
   const [messages, setMessages] = useState<MessageModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -111,7 +116,7 @@ const Chat: React.FC<Props> = ({ route }) => {
     textMessage: string,
     callbackFinish: unknown
   ) => {
-    const userLoggedId = auth().currentUser?.uid;
+    const userLoggedId = auth().currentUser?.uid || '';
 
     const message: MessageModel = {
       chatId: chat.id,
@@ -121,6 +126,22 @@ const Chat: React.FC<Props> = ({ route }) => {
     };
 
     await database.message.createMessage(message);
+
+    if (!userLogged || 'token' in otherUser) {
+      const userLoggedUpdated: User = await getById(userLoggedId);
+      const otherUserUpdated: User = await getById(otherUser.id);
+
+      setUserLogged(userLoggedUpdated);
+      setOtherUser(otherUserUpdated);
+
+      await sendNotification(userLoggedUpdated.username, textMessage, [
+        otherUserUpdated.token
+      ]);
+    } else {
+      await sendNotification(userLogged.username, textMessage, [
+        otherUser.token
+      ]);
+    }
 
     if (callbackFinish && typeof callbackFinish === 'function') {
       callbackFinish();

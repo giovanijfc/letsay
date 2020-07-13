@@ -19,6 +19,7 @@ const Home: React.FC = () => {
 
     const listenerOnMessage = messaging().onMessage(
       (remoteMessage: Notification) => {
+        console.log(remoteMessage);
         showNotification(remoteMessage);
       }
     );

@@ -4,6 +4,7 @@ export interface User {
   username: string;
   phone: string;
   password: string;
+  token: string;
 }
 
 export interface UserPreviewChat {
