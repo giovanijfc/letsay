@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useEffect, useLayoutEffect } from 'react';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
@@ -94,7 +94,7 @@ const Register: React.FC = () => {
 
   return (
     <Styled.SafeAreaView>
-      <Styled.Container behavior='position' keyboardVerticalOffset={-10}>
+      <Styled.Container>
         <TouchableOpacity
           disabled={registerUser.isLoading}
           onPress={handleBack}
@@ -106,7 +106,7 @@ const Register: React.FC = () => {
           />
         </TouchableOpacity>
 
-        <Styled.AreaForm>
+        <Styled.AreaForm behavior='position'>
           <Text
             style={{ marginBottom: SPACING.huge }}
             semiBold

@@ -6,7 +6,7 @@ import SPACING from '~/utils/spacing';
 export const Container = styled.SafeAreaView`
   flex: 1;
   background: ${COLORS.secondary};
-  justify-content: flex-end;
+  justify-content: space-around;
 `;
 
 export const AreaBottom = styled.View`
@@ -16,8 +16,7 @@ export const AreaBottom = styled.View`
 `;
 
 export const ImageLogo = styled.Image`
-  position: absolute;
-  top: 200;
+  margin-top: 50;
   align-self: center;
 `;
 

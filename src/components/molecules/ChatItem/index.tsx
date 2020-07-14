@@ -1,5 +1,7 @@
 import React, { memo, useLayoutEffect, useState } from 'react';
 import { View } from 'react-native';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 import Text from '~/components/atoms/Text';
 
@@ -19,7 +21,6 @@ interface Props {
   chat: Chat;
 }
 
-const ONE_DAY_TIME_MILLIS = 86400000;
 const ONE_MINUTES_IN_TIME_MILLIS = 60000;
 
 let intervalCheckDateFormated: unknown = null;
@@ -50,7 +51,6 @@ const ChatItem: React.FC<Props> = ({
     const timeMillisNow = Date.now();
     const dateMessageTimeMillis = parseInt(lastMessage.date);
     const diferrence = timeMillisNow - dateMessageTimeMillis;
-    const date = new Date(dateMessageTimeMillis);
 
     if (!dateMessageTimeMillis) {
       return 'Agora...';
@@ -60,11 +60,7 @@ const ChatItem: React.FC<Props> = ({
       return 'Agora';
     }
 
-    if (diferrence >= ONE_DAY_TIME_MILLIS) {
-      return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`;
-    }
-
-    return `${date.getHours()}:${date.getMinutes()}`;
+    return moment(dateMessageTimeMillis).calendar();
   };
 
   return (
@@ -87,7 +83,12 @@ const ChatItem: React.FC<Props> = ({
           </Text>
         </Styled.WrapperHeaderInfo>
 
-        <Text style={{ marginTop: SPACING.default }} regular color='white'>
+        <Text
+          numberOfLines={1}
+          style={{ marginTop: SPACING.default }}
+          regular
+          color='white'
+        >
           {lastMessage.message}
         </Text>
       </Styled.AreaInfo>

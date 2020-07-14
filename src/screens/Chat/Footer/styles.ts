@@ -5,5 +5,6 @@ export const Container = styled.KeyboardAvoidingView`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  margin-bottom: 10;
   background-color: transparent;
 `;

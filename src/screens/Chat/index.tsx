@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import RNdatabase, {
   FirebaseDatabaseTypes
 } from '@react-native-firebase/database';
-import { useSelector } from 'react-redux';
+import { FlatList } from 'react-native';
 
 import Message from '~/components/atoms/Message';
 import CenterLoader from '~/components/atoms/CenterLoader';
@@ -12,6 +12,8 @@ import Header from './Header';
 import Footer from './Footer';
 
 import database from '~/services/firebase/database';
+import { getById } from '~/services/firebase/database/user';
+import { sendNotification } from '~/services/firebase/messaging/notification';
 
 import { setStatusBar } from '~/utils/statusBar';
 import COLORS from '~/utils/colors';
@@ -20,17 +22,11 @@ import { orderByTimestamp } from '~/utils/message';
 import { User } from '~/models/user';
 import { Chat as ChatModel } from '~/models/chat';
 import { Message as MessageModel } from '~/models/message';
-import { RootState } from '~/redux/reducers';
 
 import * as Styled from './styles';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import { FlatList } from 'react-native-gesture-handler';
-import { getById } from '~/services/firebase/database/user';
-import { sendNotification } from '~/services/firebase/messaging/notification';
-
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-IconAntDesign.loadFont();
+void IconAntDesign.loadFont();
 
 interface Props {
   route: Route;
@@ -57,6 +53,8 @@ const Chat: React.FC<Props> = ({ route }) => {
   useLayoutEffect(() => {
     setStatusBar(COLORS.separator, true);
 
+    void loadUsersData();
+
     return () => {
       RNdatabase().ref('/messages').off();
     };
@@ -66,7 +64,7 @@ const Chat: React.FC<Props> = ({ route }) => {
     setTimeout(() => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       flatRef?.current?.scrollToEnd({ duration: 0, animated: true });
-    }, messages.length * 10);
+    }, 1000);
   }, [messages]);
 
   useLayoutEffect(() => {
@@ -112,6 +110,16 @@ const Chat: React.FC<Props> = ({ route }) => {
     };
   }, []);
 
+  const loadUsersData = async () => {
+    const userLoggedId = auth().currentUser?.uid || '';
+
+    const userLoggedUpdated: User = await getById(userLoggedId);
+    const otherUserUpdated: User = await getById(otherUser.id);
+
+    setUserLogged(userLoggedUpdated);
+    setOtherUser(otherUserUpdated);
+  };
+
   const onPressSendMessageHandler = async (
     textMessage: string,
     callbackFinish: unknown
@@ -127,21 +135,9 @@ const Chat: React.FC<Props> = ({ route }) => {
 
     await database.message.createMessage(message);
 
-    if (!userLogged || !('token' in otherUser)) {
-      const userLoggedUpdated: User = await getById(userLoggedId);
-      const otherUserUpdated: User = await getById(otherUser.id);
-
-      setUserLogged(userLoggedUpdated);
-      setOtherUser(otherUserUpdated);
-
-      await sendNotification(userLoggedUpdated.username, textMessage, [
-        otherUserUpdated.token
-      ]);
-    } else {
-      await sendNotification(userLogged.username, textMessage, [
-        otherUser.token
-      ]);
-    }
+    void sendNotification(userLogged?.username || '', textMessage, [
+      otherUser.token
+    ]);
 
     if (callbackFinish && typeof callbackFinish === 'function') {
       callbackFinish();

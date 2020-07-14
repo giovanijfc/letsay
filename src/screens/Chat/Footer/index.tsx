@@ -1,5 +1,5 @@
-import React, { memo, useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import React, { memo, useState, useLayoutEffect } from 'react';
+import { SafeAreaView, Keyboard } from 'react-native';
 
 import Input from '~/components/atoms/Input';
 import Button from '~/components/atoms/Button';
@@ -19,9 +19,24 @@ interface Props {
 const Footer: React.FC<Props> = ({ onPressSendMessage }) => {
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [marginBottomSafeAreaView, setMarginBottomSafeAreaView] = useState(0);
+
+  useLayoutEffect(() => {
+    const listenerKeyboardShow = Keyboard.addListener('keyboardDidShow', () =>
+      setMarginBottomSafeAreaView(10)
+    );
+    const listenerKeyboardHide = Keyboard.addListener('keyboardDidHide', () =>
+      setMarginBottomSafeAreaView(0)
+    );
+
+    return () => {
+      listenerKeyboardShow.remove();
+      listenerKeyboardHide.remove();
+    };
+  }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ marginBottom: marginBottomSafeAreaView }}>
       <Styled.Container>
         <Input
           placeholder='Digite algo...'

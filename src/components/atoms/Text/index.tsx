@@ -19,6 +19,7 @@ interface Props {
   color?: string | 'white';
   style?: StyleProp<TextStyle> | null;
   onPress?(): void;
+  numberOfLines?: number | 1;
 }
 
 const Text: React.FC<Props> = ({
@@ -33,6 +34,7 @@ const Text: React.FC<Props> = ({
   bold,
   color,
   onPress,
+  numberOfLines,
   style
 }) => {
   const fontSize: number = getFontSize(
@@ -51,6 +53,7 @@ const Text: React.FC<Props> = ({
   return (
     <Styled.Text
       onPress={onPress}
+      numberOfLines={numberOfLines}
       style={{
         fontSize,
         color,

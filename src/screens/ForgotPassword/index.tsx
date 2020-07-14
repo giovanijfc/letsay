@@ -70,7 +70,7 @@ const ForgotPassword: React.FC = () => {
 
   return (
     <Styled.SafeAreaView>
-      <Styled.Container behavior='position' keyboardVerticalOffset={40}>
+      <Styled.Container>
         <TouchableOpacity disabled={isLoading} onPress={handleBack}>
           <IconAntDesign
             size={32}
@@ -79,7 +79,7 @@ const ForgotPassword: React.FC = () => {
           />
         </TouchableOpacity>
 
-        <Styled.AreaForm>
+        <Styled.AreaForm behavior='position' keyboardVerticalOffset={10}>
           <Text
             style={{ marginBottom: SPACING.large }}
             semiBold

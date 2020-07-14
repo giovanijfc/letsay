@@ -79,7 +79,7 @@ const Login: React.FC = () => {
 
   return (
     <Styled.SafeAreaView>
-      <Styled.Container behavior='position' keyboardVerticalOffset={40}>
+      <Styled.Container>
         <TouchableOpacity disabled={authUser.isLoading} onPress={handleBack}>
           <IconAntDesign
             size={32}
@@ -88,7 +88,7 @@ const Login: React.FC = () => {
           />
         </TouchableOpacity>
 
-        <Styled.AreaForm>
+        <Styled.AreaForm behavior='position'>
           <Text
             style={{ marginBottom: SPACING.huge }}
             semiBold
@@ -154,20 +154,20 @@ const Login: React.FC = () => {
               Entrar
             </Text>
           </Button>
-        </Styled.AreaForm>
 
-        <Text
-          style={{
-            marginTop: 40,
-            textAlign: 'center'
-          }}
-          color={authUser.isLoading ? COLORS.gray500 : 'white'}
-          semiBold
-          regular
-          onPress={handlePressForgotPassword}
-        >
-          Esqueceu sua senha?
-        </Text>
+          <Text
+            style={{
+              marginTop: 40,
+              textAlign: 'center'
+            }}
+            color={authUser.isLoading ? COLORS.gray500 : 'white'}
+            semiBold
+            regular
+            onPress={handlePressForgotPassword}
+          >
+            Esqueceu sua senha?
+          </Text>
+        </Styled.AreaForm>
       </Styled.Container>
     </Styled.SafeAreaView>
   );

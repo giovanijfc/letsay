@@ -65,6 +65,28 @@ const Chats: React.FC = () => {
     });
   };
 
+  const getChatsByOrderLastMessage = () => {
+    const chatsToSort: Chat[] = chats.getAllChatsByIdUser.success || [];
+
+    return chatsToSort.sort((a, b) => {
+      if (!a.lastMessage.date) {
+        return 1;
+      }
+
+      if (!b.lastMessage.date) {
+        return 0;
+      }
+
+      if (a.lastMessage.date < b.lastMessage.date) {
+        return 1;
+      } else if (b.lastMessage.date < a.lastMessage.date) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  };
+
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
@@ -99,7 +121,7 @@ const Chats: React.FC = () => {
                   Nenhum chat encontrado. :/
                 </Text>
               }
-              data={chats.getAllChatsByIdUser.success}
+              data={getChatsByOrderLastMessage()}
               renderItem={({ item }) => {
                 const otherUser = getOtherUserPreviewChat(item);
 
