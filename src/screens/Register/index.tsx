@@ -12,13 +12,12 @@ import Button from '~/components/atoms/Button';
 
 import { registerUserRequest, resetState } from '~/redux/actions/user';
 
-import { User } from '~/models/user';
-
 import SPACING from '~/utils/spacing';
 import { validateEmail, validatePhoneBR } from '~/utils/validate';
 import COLORS from '~/utils/colors';
 
 import { RootState } from '~/redux/reducers';
+import { User } from '~/models/user';
 
 import * as Styled from './styles';
 

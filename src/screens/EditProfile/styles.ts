@@ -17,6 +17,18 @@ export const Container = styled.KeyboardAvoidingView`
   padding-right: ${SPACING.high};
 `;
 
-export const Header = styled.View`
-  align-items: flex-end;
+export const AreaForm = styled.KeyboardAvoidingView`
+  padding-left: ${SPACING.nano};
+  margin-top: 50;
+`;
+
+export const WrapperTrigger = styled.View`
+  height: 50;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: ${SPACING.large};
+  padding-right: ${SPACING.large};
+  background-color: ${COLORS.terciary};
+  border-radius: 100;
 `;
