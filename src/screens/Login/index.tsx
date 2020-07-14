@@ -22,8 +22,7 @@ import { RootState } from '~/redux/reducers';
 import * as Styled from './styles';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-IconAntDesign.loadFont();
+void IconAntDesign.loadFont();
 
 const Login: React.FC = () => {
   const {

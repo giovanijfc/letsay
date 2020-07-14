@@ -8,9 +8,38 @@ import Welcome from '~/screens/Welcome';
 import Login from '~/screens/Login';
 import Register from '~/screens/Register';
 import ForgotPassword from '~/screens/ForgotPassword';
+
 import Home from '~/screens/Home';
+
 import NewChat from '~/screens/NewChat';
 import Chat from '~/screens/Chat';
+import Chats from '~/screens/Chats';
+
+import TabBar from './TabBar';
+
+export const ChatStack: React.FC = () => {
+  const Stack = createStackNavigator();
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        component={Chats}
+        name='Chats'
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={Chat}
+        name='Chat'
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={NewChat}
+        name='NewChat'
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const Routes: React.FC<{ hasUserAuthenticate: boolean }> = ({
   hasUserAuthenticate
@@ -19,55 +48,32 @@ const Routes: React.FC<{ hasUserAuthenticate: boolean }> = ({
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {hasUserAuthenticate ? (
-          <>
-            <Stack.Screen
-              name='Home'
-              component={Home}
-              options={{ headerShown: false }}
-            />
-
-            <Stack.Screen
-              name='Chat'
-              component={Chat}
-              options={{ headerShown: false }}
-            />
-
-            <Stack.Screen
-              name='NewChat'
-              component={NewChat}
-              options={{ headerShown: false }}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name='Welcome'
-              component={Welcome}
-              options={{ headerShown: false }}
-            />
-
-            <Stack.Screen
-              name='Login'
-              component={Login}
-              options={{ headerShown: false }}
-            />
-
-            <Stack.Screen
-              name='Register'
-              component={Register}
-              options={{ headerShown: false }}
-            />
-
-            <Stack.Screen
-              name='ForgotPassword'
-              component={ForgotPassword}
-              options={{ headerShown: false }}
-            />
-          </>
-        )}
-      </Stack.Navigator>
+      {hasUserAuthenticate ? (
+        <TabBar />
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name='Welcome'
+            component={Welcome}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Login'
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Register'
+            component={Register}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='ForgotPassword'
+            component={ForgotPassword}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 };

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useEffect, useLayoutEffect } from 'react';
-import { TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
