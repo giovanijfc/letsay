@@ -79,7 +79,6 @@ export const onUpdateChatServiceStart = (
     .ref('/chats')
     .orderByChild(`/usersIds/${idUser}/userLoggedId`)
     .equalTo(idUser)
-    .limitToLast(1)
     .on('child_changed', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
       dispatch(updateChat(snapshot.val()));
     });
