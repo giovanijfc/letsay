@@ -5,21 +5,18 @@ import SPACING from '~/utils/spacing';
 
 export const SafeAreaView = styled.SafeAreaView`
   flex: 1;
-  background: ${COLORS.secondary};
+  background-color: ${COLORS.separator};
 `;
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
   flex: 1;
+  background-color: ${COLORS.secondary};
   padding-top: ${SPACING.high};
   padding-bottom: ${SPACING.high};
   padding-left: ${SPACING.high};
   padding-right: ${SPACING.high};
-  background: ${COLORS.secondary};
 `;
 
-export const AreaHeader = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: ${SPACING.large};
+export const Header = styled.View`
+  align-items: flex-end;
 `;

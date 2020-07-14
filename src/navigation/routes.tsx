@@ -9,32 +9,37 @@ import Login from '~/screens/Login';
 import Register from '~/screens/Register';
 import ForgotPassword from '~/screens/ForgotPassword';
 
-import Home from '~/screens/Home';
-
 import NewChat from '~/screens/NewChat';
 import Chat from '~/screens/Chat';
-import Chats from '~/screens/Chats';
+import Home from '~/screens/Home';
+
+import Profile from '~/screens/Profile';
+import EditProfile from '~/screens/EditProfile';
 
 import TabBar from './TabBar';
 
-export const ChatStack: React.FC = () => {
+export const ProfileBarStack: React.FC = () => {
   const Stack = createStackNavigator();
 
   return (
     <Stack.Navigator>
       <Stack.Screen
-        component={Chats}
+        component={Profile}
+        name='Profile'
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export const ChatBarStack: React.FC = () => {
+  const Stack = createStackNavigator();
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        component={Home}
         name='Chats'
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        component={Chat}
-        name='Chat'
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        component={NewChat}
-        name='NewChat'
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -49,7 +54,28 @@ const Routes: React.FC<{ hasUserAuthenticate: boolean }> = ({
   return (
     <NavigationContainer>
       {hasUserAuthenticate ? (
-        <TabBar />
+        <Stack.Navigator>
+          <Stack.Screen
+            name='HomeTabBar'
+            component={TabBar}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='NewChat'
+            component={NewChat}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Chat'
+            component={Chat}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            component={EditProfile}
+            name='EditProfile'
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
       ) : (
         <Stack.Navigator>
           <Stack.Screen

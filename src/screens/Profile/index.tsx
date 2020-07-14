@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Avatar from '~/components/atoms/Avatar';
 import Text from '~/components/atoms/Text';
 import Button from '~/components/atoms/Button';
+
+import Dropdown from './Dropdown';
 
 import COLORS from '~/utils/colors';
 import SPACING from '~/utils/spacing';
@@ -21,15 +24,13 @@ void Feather.loadFont();
 const walpapper = require('~/assets/img/walpapper.jpg');
 
 const Profile: React.FC = () => {
+  const navigation = useNavigation();
+
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
         <Styled.Background source={walpapper}>
-          <Styled.Header>
-            <TouchableOpacity>
-              <Feather size={30} color='white' name='more-vertical' />
-            </TouchableOpacity>
-          </Styled.Header>
+          <Dropdown />
 
           <View>
             <Styled.AreaRow>
@@ -50,14 +51,14 @@ const Profile: React.FC = () => {
             </Styled.AreaRow>
             <Styled.AreaRow>
               <Button
-                onPress={() => alert('follow')}
+                onPress={() => navigation.navigate('EditProfile')}
                 style={{
                   paddingLeft: SPACING.high,
                   paddingRight: SPACING.high
                 }}
               >
                 <Text regular bold color={COLORS.secondary}>
-                  + Enviar solicitação
+                  Editar Dados
                 </Text>
               </Button>
 

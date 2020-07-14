@@ -7,7 +7,6 @@ import RNdatabase from '@react-native-firebase/database';
 
 import ChatItem from '~/components/molecules/ChatItem';
 
-import FloatingButton from '~/components/atoms/FloatingButton';
 import Text from '~/components/atoms/Text';
 import CenterLoader from '~/components/atoms/CenterLoader';
 
@@ -54,10 +53,6 @@ const Chats: React.FC = () => {
     navigation.navigate('NewChat');
   };
 
-  const onClickSignoutHandler = async () => {
-    await auth().signOut();
-  };
-
   const onPressChatItemHandler = (otherUser: unknown, chat: Chat) => {
     navigation.navigate('Chat', {
       otherUser,
@@ -95,61 +90,45 @@ const Chats: React.FC = () => {
             Mensagens
           </Text>
 
-          <MaterialCommunityIcons
-            name='logout'
+          <IconAntDesign
+            name='plus'
+            onPress={onClickNewMessageHandler}
             color={COLORS.primary}
             size={34}
-            onPress={onClickSignoutHandler}
           />
         </Styled.AreaHeader>
         {chats.getAllChatsByIdUser.isLoading ? (
           <CenterLoader />
         ) : (
-          <>
-            <FlatList
-              showsHorizontalScrollIndicator={false}
-              ListEmptyComponent={
-                <Text
-                  style={{
-                    flex: 1,
-                    alignSelf: 'center',
-                    marginTop: SPACING.default
-                  }}
-                  color={COLORS.gray400}
-                  extraRegular
-                >
-                  Nenhum chat encontrado. :/
-                </Text>
-              }
-              data={getChatsByOrderLastMessage()}
-              renderItem={({ item }) => {
-                const otherUser = getOtherUserPreviewChat(item);
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={
+              <Text
+                style={{
+                  flex: 1,
+                  alignSelf: 'center',
+                  marginTop: SPACING.default
+                }}
+                color={COLORS.gray400}
+                extraRegular
+              >
+                Nenhum chat encontrado. :/
+              </Text>
+            }
+            data={getChatsByOrderLastMessage()}
+            renderItem={({ item }) => {
+              const otherUser = getOtherUserPreviewChat(item);
 
-                return (
-                  <ChatItem
-                    lastMessage={item.lastMessage}
-                    onPress={onPressChatItemHandler}
-                    otherUser={otherUser}
-                    chat={item}
-                  />
-                );
-              }}
-            />
-
-            <FloatingButton
-              style={{
-                width: 60,
-                height: 60,
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-              bottom={20}
-              right={15}
-              onPress={onClickNewMessageHandler}
-            >
-              <IconAntDesign name='plus' color={COLORS.secondary} size={34} />
-            </FloatingButton>
-          </>
+              return (
+                <ChatItem
+                  lastMessage={item.lastMessage}
+                  onPress={onPressChatItemHandler}
+                  otherUser={otherUser}
+                  chat={item}
+                />
+              );
+            }}
+          />
         )}
       </Styled.Container>
     </Styled.SafeAreaView>

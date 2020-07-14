@@ -30,6 +30,7 @@
     "react-native-gesture-handler": "^1.6.1",
     "react-native-masked-text": "^1.13.0",
     "react-native-paper": "^3.10.1",
+    "react-native-popup-menu": "^0.15.9",
     "react-native-push-notification": "^4.0.0",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^3.0.5",

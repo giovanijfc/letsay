@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-import { ChatStack } from './routes';
+import { ChatBarStack, ProfileBarStack } from './routes';
 
 import COLORS from '~/utils/colors';
 
@@ -16,6 +16,7 @@ const Tab = createMaterialBottomTabNavigator();
 const TabBar: React.FC = () => {
   return (
     <Tab.Navigator
+      shifting
       activeColor={COLORS.primary}
       inactiveColor={COLORS.gray500}
       labeled
@@ -51,8 +52,8 @@ const TabBar: React.FC = () => {
         }
       })}
     >
-      <Tab.Screen name='Chats' component={ChatStack} />
-      <Tab.Screen name='Perfil' component={ChatStack} />
+      <Tab.Screen name='Chats' component={ChatBarStack} />
+      <Tab.Screen name='Perfil' component={ProfileBarStack} />
     </Tab.Navigator>
   );
 };
