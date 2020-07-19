@@ -155,6 +155,7 @@ const EditProfile: React.FC = () => {
           <MenuProvider
             style={{
               flex: 1,
+              height: '100%',
               flexDirection: 'column',
               backgroundColor: 'black'
             }}

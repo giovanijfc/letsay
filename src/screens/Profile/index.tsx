@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import Avatar from '~/components/atoms/Avatar';
@@ -32,7 +31,7 @@ const Profile: React.FC = () => {
         <Styled.Background source={walpapper}>
           <Dropdown />
 
-          <View>
+          <Styled.WrapperProfileInfo>
             <Styled.AreaRow>
               <Avatar source={''} style={{ width: 100, height: 100 }} />
 
@@ -69,7 +68,7 @@ const Profile: React.FC = () => {
                 </Text>
               </Styled.WrapperDetails>
             </Styled.AreaRow>
-          </View>
+          </Styled.WrapperProfileInfo>
         </Styled.Background>
 
         <Styled.AreaSolicitations>

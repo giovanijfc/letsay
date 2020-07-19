@@ -20,12 +20,14 @@ export const Header = styled.View`
 `;
 
 export const Background = styled.ImageBackground.attrs({
-  resizeMode: 'cover'
+  resizeMode: 'cover',
+  imageStyle: {
+    opacity: 0.15
+  }
 })`
   width: 100%;
   height: 100%;
   flex: 0.8;
-  justify-content: space-between;
   padding-left: ${SPACING.default};
   padding-right: ${SPACING.default};
   padding-top: ${SPACING.high};
@@ -54,4 +56,9 @@ export const AreaSolicitations = styled.View`
   padding-right: ${SPACING.default};
   padding-top: ${SPACING.high};
   padding-bottom: ${SPACING.high};
+`;
+
+export const WrapperProfileInfo = styled.View`
+  flex: 1;
+  justify-content: flex-end;
 `;

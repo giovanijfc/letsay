@@ -50,7 +50,8 @@ const Dropdown: React.FC = () => {
       <MenuProvider
         style={{
           flexDirection: 'column',
-          alignItems: 'flex-end'
+          position: 'absolute',
+          right: 0
         }}
       >
         <Menu onSelect={selectOptionsHandler}>
