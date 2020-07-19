@@ -6,7 +6,7 @@ import Avatar from '~/components/atoms/Avatar';
 import Text from '~/components/atoms/Text';
 import Button from '~/components/atoms/Button';
 
-import Dropdown from './Dropdown';
+import DropdownMoreOptions from './DropdownMoreOptions';
 
 import COLORS from '~/utils/colors';
 import SPACING from '~/utils/spacing';
@@ -29,7 +29,7 @@ const Profile: React.FC = () => {
     <Styled.SafeAreaView>
       <Styled.Container>
         <Styled.Background source={walpapper}>
-          <Dropdown />
+          <DropdownMoreOptions />
 
           <Styled.WrapperProfileInfo>
             <Styled.AreaRow>

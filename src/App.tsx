@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import auth from '@react-native-firebase/auth';
+import { MenuProvider } from 'react-native-popup-menu';
 
 import Routes from '~/navigation/routes.tsx';
 
@@ -25,7 +26,9 @@ const App: React.FC = () => {
 
   return (
     <Provider store={store}>
-      <Routes hasUserAuthenticate={hasUserAuthenticate} />
+      <MenuProvider>
+        <Routes hasUserAuthenticate={hasUserAuthenticate} />
+      </MenuProvider>
     </Provider>
   );
 };

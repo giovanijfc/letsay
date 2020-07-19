@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 import SPACING from '~/utils/spacing';
 
-export const Container = styled.KeyboardAvoidingView`
+export const Container = styled.View`
   height: 100%;
   width: 100%;
   position: absolute;
