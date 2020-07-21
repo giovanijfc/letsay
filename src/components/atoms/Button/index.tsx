@@ -16,6 +16,7 @@ interface Props {
   onPress(): void;
   style?: StyleProp<ViewStyle> | null;
   isLoading?: boolean | false;
+  disabled?: boolean | false;
 }
 
 const Button: React.FC<Props> = ({
@@ -25,18 +26,22 @@ const Button: React.FC<Props> = ({
   backgroundColor,
   onPress,
   style,
-  isLoading
+  isLoading,
+  disabled
 }) => {
   const borderRadius: number = getBorderRadius(rounded, extraRounded);
 
   return (
     <Styled.Button
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       onPress={onPress}
       style={{
         ...style,
         borderRadius,
-        backgroundColor: backgroundColor || COLORS.primary
+        backgroundColor:
+          isLoading || disabled
+            ? COLORS.gray500
+            : backgroundColor || COLORS.primary
       }}
     >
       {isLoading ? (

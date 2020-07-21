@@ -11,10 +11,11 @@ import * as Styled from './styles';
 interface Props {
   name: string | '';
   uid: string | '';
+  nickname?: string | '';
   onPress?(uid: string): boolean | false;
 }
 
-const ProfileItem: React.FC<Props> = ({ name, uid, onPress }) => {
+const ProfileItem: React.FC<Props> = ({ nickname, name, uid, onPress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -34,14 +35,22 @@ const ProfileItem: React.FC<Props> = ({ name, uid, onPress }) => {
         }}
       />
 
-      <Text
-        style={{ marginLeft: SPACING.high }}
-        small
-        semiBold
-        color={COLORS.gray600}
-      >
-        {name}
-      </Text>
+      <Styled.WrapperNames>
+        <Text small semiBold color={COLORS.gray600}>
+          {name}
+        </Text>
+
+        {nickname && (
+          <Text
+            style={{ marginTop: SPACING.small }}
+            ultraSmall
+            semiBold
+            color={COLORS.gray600}
+          >
+            {nickname}
+          </Text>
+        )}
+      </Styled.WrapperNames>
 
       {isLoading && (
         <Styled.WrapperEnd>

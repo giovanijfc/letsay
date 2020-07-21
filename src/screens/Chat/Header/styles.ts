@@ -10,3 +10,9 @@ export const Container = styled.View`
   padding-bottom: ${SPACING.small};
   margin-bottom: ${SPACING.default};
 `;
+
+export const WrapperNames = styled.View`
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;

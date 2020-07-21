@@ -62,8 +62,10 @@ const Profile: React.FC = () => {
               </Button>
 
               <Styled.WrapperDetails>
-                <Text color='white'>10</Text>
-                <Text small color='white'>
+                <Text color='white' bold>
+                  10
+                </Text>
+                <Text semiBold small color='white'>
                   Amigos
                 </Text>
               </Styled.WrapperDetails>

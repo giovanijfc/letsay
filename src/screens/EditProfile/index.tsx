@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useLayoutEffect, useState } from 'react';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import {
@@ -9,17 +9,22 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
+import { useSelector, useDispatch } from 'react-redux';
+import auth from '@react-native-firebase/auth';
 
 import Input from '~/components/atoms/Input/';
 import Text from '~/components/atoms/Text/';
 import Button from '~/components/atoms/Button/';
 import DropdownItem from '~/components/atoms/DropdownItem';
 
+import { updateAuthUserDataRequest } from '~/redux/actions/user';
+
 import SPACING from '~/utils/spacing';
 import COLORS from '~/utils/colors';
 import { validatePhoneBR } from '~/utils/validate';
 
 import { User } from '~/models/user';
+import { RootState } from '~/redux/reducers';
 
 import * as Styled from './styles';
 
@@ -31,10 +36,19 @@ void Feather.loadFont();
 
 const EditProfile: React.FC = () => {
   const [isOpenDropdownSex, setIsOpenDropdownSex] = useState(false);
+  const [isEditData, setIsEditData] = useState(false);
+
+  const {
+    user: { authUser }
+  } = useSelector((state: RootState) => state);
+
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, setValue, handleSubmit, errors } = useForm<User>();
+  const { register, setValue, handleSubmit, errors, getValues } = useForm<
+    User
+  >();
 
   useLayoutEffect(() => {
     register({ name: 'username' }, { minLength: 5 });
@@ -55,30 +69,50 @@ const EditProfile: React.FC = () => {
     register({ name: 'sex' });
   }, []);
 
+  useLayoutEffect(() => {
+    checkIsEdit();
+  }, [authUser]);
+
   const selectOptionsHandler = (optionValue: string) => {
     setIsOpenDropdownSex(false);
 
-    switch (optionValue) {
-      case 'Woman':
-        return;
-      case 'Man':
-        return;
-      case 'Other':
-        return;
-      default:
-        return;
-    }
+    onChangeText('sex', optionValue);
+  };
+
+  const onChangeText = (key: string, value: string) => {
+    setValue(key, value);
+
+    void checkIsEdit();
+  };
+
+  const checkIsEdit = () => {
+    let isEdit = false;
+    const formDataInitialValue = authUser.success;
+
+    isEdit =
+      (getValues()['nickname'] &&
+        formDataInitialValue?.nickname !== getValues()['nickname']) ||
+      (getValues()['username'] &&
+        formDataInitialValue?.username !== getValues()['username']) ||
+      (getValues()['phone'] &&
+        formDataInitialValue?.phone !== getValues()['phone']) ||
+      (getValues()['sex'] &&
+        formDataInitialValue?.sex !== getValues()['sex']) ||
+      (getValues()['birthday'] &&
+        formDataInitialValue?.birthday !== getValues()['birthday']);
+
+    setIsEditData(isEdit);
   };
 
   const handleBack = () => {
     navigation.goBack();
   };
 
-  const onSubmit = data => {
-    Alert.alert(JSON.stringify(data));
-  };
+  const onSubmit = (data: User) => {
+    const userLoggedId = auth().currentUser?.uid || '';
 
-  console.log(errors);
+    dispatch(updateAuthUserDataRequest(userLoggedId, data));
+  };
 
   return (
     <Styled.SafeAreaView>
@@ -101,16 +135,18 @@ const EditProfile: React.FC = () => {
             onSubmitEditing={handleSubmit(onSubmit)}
             style={{ marginBottom: SPACING.default }}
             placeholder='Nome de usuário'
-            defaultValue=''
-            onChange={(text: string) => setValue('username', text)}
+            defaultValue={authUser.success?.username}
+            onChange={(text: string) => onChangeText('username', text)}
           />
 
           <Input
             onSubmitEditing={handleSubmit(onSubmit)}
             style={{ marginBottom: SPACING.default }}
-            placeholder='Apelido'
-            defaultValue=''
-            onChange={(text: string) => setValue('nickname', `@${text}`)}
+            placeholder='@Apelido'
+            defaultValue={authUser.success?.nickname}
+            onChange={(text: string) =>
+              onChangeText('nickname', text.includes('@') ? text : `@${text}`)
+            }
           />
 
           {errors.phone && errors.phone.type === 'notIsPhone' && (
@@ -139,16 +175,16 @@ const EditProfile: React.FC = () => {
                 dddMask: '(99) '
               }
             }}
-            defaultValue=''
-            onChange={(text: string) => setValue('phone', text)}
+            defaultValue={authUser.success?.phone}
+            onChange={(text: string) => onChangeText('phone', text)}
           />
 
           <Input
             onSubmitEditing={handleSubmit(onSubmit)}
             style={{ marginBottom: SPACING.default }}
             placeholder='Data de aniversário'
-            defaultValue=''
-            onChange={(text: string) => setValue('birthday', `@${text}`)}
+            defaultValue={authUser.success?.birthday}
+            onChange={(text: string) => onChangeText('birthday', text)}
           />
 
           <Menu
@@ -168,7 +204,7 @@ const EditProfile: React.FC = () => {
             >
               <Styled.WrapperTrigger>
                 <Text style={{ fontSize: 18 }} color='white' semiBold>
-                  Sexo
+                  {getValues()['sex'] || authUser.success?.sex || 'Genero'}
                 </Text>
                 <IconAntDesign
                   color='white'
@@ -184,13 +220,19 @@ const EditProfile: React.FC = () => {
                 paddingBottom: 50
               }}
             >
-              <DropdownItem value='Woman' text='Feminino' />
-              <DropdownItem value='Man' text='Masculino' />
-              <DropdownItem value='Other' text='Outro' />
+              <DropdownItem value='Feminino' text='Feminino' />
+              <DropdownItem value='Masculino' text='Masculino' />
+              <DropdownItem value='Outros' text='Outros' />
             </MenuOptions>
           </Menu>
 
-          <Button style={{ marginTop: 60 }} onPress={handleSubmit(onSubmit)}>
+          <Button
+            isLoading={authUser.isLoading}
+            backgroundColor={isEditData ? COLORS.primary : COLORS.gray500}
+            disabled={!isEditData}
+            style={{ marginTop: 60 }}
+            onPress={handleSubmit(onSubmit)}
+          >
             <Text semiBold regular>
               Salvar
             </Text>

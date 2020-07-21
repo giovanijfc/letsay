@@ -5,6 +5,9 @@ export interface User {
   phone: string;
   password: string;
   token: string;
+  nickname?: string | '';
+  sex?: string | '';
+  birthday?: string | '';
 }
 
 export interface UserPreviewChat {

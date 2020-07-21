@@ -22,7 +22,7 @@ export const Header = styled.View`
 export const Background = styled.ImageBackground.attrs({
   resizeMode: 'cover',
   imageStyle: {
-    opacity: 0.15
+    opacity: 0.1
   }
 })`
   width: 100%;

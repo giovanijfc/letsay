@@ -116,6 +116,7 @@ const NewMessage: React.FC = () => {
           renderItem={({ item }) => (
             <ProfileItem
               onPress={onPressProfileItemHandler}
+              nickname={item?.nickname}
               name={item.username}
               uid={item.id}
             />

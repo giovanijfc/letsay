@@ -16,6 +16,10 @@ export const REGISTER_USER = 'REGISTER_USER';
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAIL = 'REGISTER_USER_FAIL';
 
+export const UPDATE_AUTH_USER_DATA = 'UPDATE_AUTH_USER_DATA';
+export const UPDATE_AUTH_USER_DATA_SUCCESS = 'UPDATE_AUTH_USER_DATA_SUCCESS';
+export const UPDATE_AUTH_USER_DATA_FAIL = 'UPDATE_AUTH_USER_DATA_FAIL';
+
 export const RESET_STATE = 'RESET_STATE';
 
 export const resetState = (): UserActionTypes => ({
@@ -39,13 +43,27 @@ const authUser = (): UserActionTypes => ({
   type: AUTH_USER
 });
 
-const authUserSuccess = (user: User): UserActionTypes => ({
+export const authUserSuccess = (user: User): UserActionTypes => ({
   type: AUTH_USER_SUCCESS,
   user
 });
 
 const authUserFail = (fail: string): UserActionTypes => ({
   type: AUTH_USER_FAIL,
+  fail
+});
+
+const updateAuthUserData = (): UserActionTypes => ({
+  type: UPDATE_AUTH_USER_DATA
+});
+
+export const updateAuthUserDataSuccess = (user: User): UserActionTypes => ({
+  type: UPDATE_AUTH_USER_DATA_SUCCESS,
+  user
+});
+
+const updateAuthUserDataFail = (fail: string): UserActionTypes => ({
+  type: UPDATE_AUTH_USER_DATA_FAIL,
   fail
 });
 
@@ -91,5 +109,25 @@ export const authUserRequest = (
     }
 
     dispatch(authUserFail(message));
+  }
+};
+
+export const updateAuthUserDataRequest = (
+  idUser: string,
+  dataToUpdate: User
+): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+  dispatch(updateAuthUserData());
+
+  try {
+    const userUpdated = await database.user.updateUserData(
+      idUser,
+      dataToUpdate
+    );
+
+    dispatch(updateAuthUserDataSuccess(userUpdated));
+  } catch (error) {
+    const message = 'Error interno do servidor.';
+
+    dispatch(updateAuthUserDataFail(message));
   }
 };

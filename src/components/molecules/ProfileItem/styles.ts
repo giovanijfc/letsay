@@ -15,6 +15,10 @@ export const Container = styled.TouchableOpacity`
   border-bottom-width: 2;
 `;
 
+export const WrapperNames = styled.View`
+  margin-left: ${SPACING.high};
+`;
+
 export const WrapperEnd = styled.View`
   flex: 1;
   align-items: flex-end;

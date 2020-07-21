@@ -17,7 +17,7 @@ export const Container = styled.View`
 `;
 
 export const Input = styled.TextInput.attrs({
-  placeholderTextColor: 'white'
+  placeholderTextColor: COLORS.gray500
 })`
   flex: 1;
   font-size: 18;
@@ -27,7 +27,7 @@ export const Input = styled.TextInput.attrs({
 `;
 
 export const InputMask = styled(TextInputMask).attrs({
-  placeholderTextColor: 'white'
+  placeholderTextColor: COLORS.gray500
 })`
   flex: 1;
   font-size: 18;

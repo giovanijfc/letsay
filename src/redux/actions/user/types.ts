@@ -7,6 +7,9 @@ import {
   REGISTER_USER,
   REGISTER_USER_FAIL,
   REGISTER_USER_SUCCESS,
+  UPDATE_AUTH_USER_DATA,
+  UPDATE_AUTH_USER_DATA_SUCCESS,
+  UPDATE_AUTH_USER_DATA_FAIL,
   RESET_STATE
 } from '.';
 
@@ -37,6 +40,20 @@ interface registerUserFail {
   fail: string;
 }
 
+interface updateAuthUserData {
+  type: typeof UPDATE_AUTH_USER_DATA;
+}
+
+interface updateAuthUserDataSuccess {
+  type: typeof UPDATE_AUTH_USER_DATA_SUCCESS;
+  user: User;
+}
+
+interface updateAuthUserDataFail {
+  type: typeof UPDATE_AUTH_USER_DATA_FAIL;
+  fail: string;
+}
+
 interface resetState {
   type: typeof RESET_STATE;
 }
@@ -44,7 +61,7 @@ interface resetState {
 export interface UserState {
   user?: User | undefined;
   authUser: {
-    success?: boolean | false;
+    success?: User | undefined;
     fail?: string | undefined;
     isLoading?: boolean;
   };
@@ -62,4 +79,7 @@ export type UserActionTypes =
   | registerUser
   | registerUserFail
   | registerUserSuccess
+  | updateAuthUserData
+  | updateAuthUserDataSuccess
+  | updateAuthUserDataFail
   | resetState;

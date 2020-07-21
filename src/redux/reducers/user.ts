@@ -4,7 +4,10 @@ import {
   AUTH_USER_FAIL,
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
-  REGISTER_USER_FAIL
+  REGISTER_USER_FAIL,
+  UPDATE_AUTH_USER_DATA,
+  UPDATE_AUTH_USER_DATA_SUCCESS,
+  UPDATE_AUTH_USER_DATA_FAIL
 } from '~/redux/actions/user';
 
 import { UserState, UserActionTypes } from '~/redux/actions/user/types';
@@ -39,7 +42,7 @@ const user = (state = initialState, action: UserActionTypes): UserState => {
         user: action.user,
         authUser: {
           ...state.authUser,
-          success: true,
+          success: action.user,
           isLoading: false
         }
       };
@@ -76,6 +79,32 @@ const user = (state = initialState, action: UserActionTypes): UserState => {
           ...state.registerUser,
           fail: action?.fail,
           isLoading: false
+        }
+      };
+    case UPDATE_AUTH_USER_DATA:
+      return {
+        ...state,
+        authUser: {
+          ...state.authUser,
+          isLoading: true
+        }
+      };
+    case UPDATE_AUTH_USER_DATA_SUCCESS:
+      return {
+        ...state,
+        authUser: {
+          ...state.authUser,
+          isLoading: false,
+          success: action.user
+        }
+      };
+    case UPDATE_AUTH_USER_DATA_FAIL:
+      return {
+        ...state,
+        authUser: {
+          ...state.authUser,
+          isLoading: false,
+          fail: action.fail
         }
       };
 

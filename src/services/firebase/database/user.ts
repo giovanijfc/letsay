@@ -61,3 +61,14 @@ export const updateUserToken = async (
   const userById = database().ref(`/users/${idUser}`);
   await userById.update({ token });
 };
+
+export const updateUserData = async (
+  idUser: string,
+  fieldsToUpdate: User
+): Promise<User> => {
+  const userById = database().ref(`/users/${idUser}`);
+  await userById.update({ ...fieldsToUpdate });
+  const user: User = getById(idUser);
+
+  return user;
+};

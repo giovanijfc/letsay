@@ -149,7 +149,7 @@ const Chat: React.FC<Props> = ({ route }) => {
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
-        <Header name={otherUser.username} />
+        <Header name={otherUser.username} nickname={otherUser.nickname} />
 
         {isLoading ? (
           <CenterLoader />

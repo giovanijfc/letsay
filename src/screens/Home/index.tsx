@@ -3,25 +3,44 @@ import React, { useEffect } from 'react';
 import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
+import { useDispatch } from 'react-redux';
 
 import Chats from '~/screens/Chats';
 
-import { updateUserToken } from '~/services/firebase/database/user';
+import { updateUserToken, getById } from '~/services/firebase/database/user';
 
-import { Notification } from '~/models/notification';
-
-import * as Styled from './styles';
 import { showNotification } from '~/utils/notification';
 
+import { authUserSuccess } from '~/redux/actions/user';
+
+import { Notification } from '~/models/notification';
+import { User } from '~/models/user';
+
+import * as Styled from './styles';
+
 const Home: React.FC = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     void checkPermission();
 
     const listenerOnMessage = messaging().onMessage(
       (remoteMessage: Notification) => {
-        showNotification(remoteMessage);
+        return showNotification(remoteMessage);
       }
     );
+
+    void (async () => {
+      const userLoggedId = auth().currentUser?.uid || '';
+
+      if (userLoggedId) {
+        const user: User = await getById(userLoggedId);
+
+        if (user) {
+          dispatch(authUserSuccess(user));
+        }
+      }
+    })();
 
     return listenerOnMessage;
   }, []);
