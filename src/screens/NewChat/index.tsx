@@ -79,31 +79,38 @@ const NewMessage: React.FC = () => {
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
-        <TouchableOpacity onPress={handleBack}>
-          <IconAntDesign size={32} color='white' name='close' />
-        </TouchableOpacity>
-
-        <Text
-          style={{
-            marginTop: SPACING.high,
-            marginBottom: SPACING.default
-          }}
-          color='white'
-          semiBold
-          extraBig
-        >
-          Novo chat
-        </Text>
-
-        <Input
-          defaultValue={name}
-          onChange={newName => setName(newName)}
-          placeholder='Busque pelo nome...'
-          style={{ marginBottom: SPACING.default, marginTop: SPACING.small }}
-        />
-
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={name.length > 0 ? usersFindByName : getAllUsers.success}
+          ListHeaderComponent={
+            <>
+              <TouchableOpacity onPress={handleBack}>
+                <IconAntDesign size={32} color='white' name='close' />
+              </TouchableOpacity>
+
+              <Text
+                style={{
+                  marginTop: SPACING.high,
+                  marginBottom: SPACING.default
+                }}
+                color='white'
+                semiBold
+                extraBig
+              >
+                Novo chat
+              </Text>
+
+              <Input
+                defaultValue={name}
+                onChange={newName => setName(newName)}
+                placeholder='Busque pelo nome...'
+                style={{
+                  marginBottom: SPACING.default,
+                  marginTop: SPACING.small
+                }}
+              />
+            </>
+          }
           ListEmptyComponent={
             <Text
               style={{ flex: 1, alignSelf: 'center', marginTop: SPACING.huge }}
