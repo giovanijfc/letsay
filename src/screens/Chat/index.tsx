@@ -26,6 +26,8 @@ import { Message as MessageModel } from '~/models/message';
 import * as Styled from './styles';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import { useDispatch } from 'react-redux';
+import { setActiveChatId } from '~/redux/actions/chats';
 void IconAntDesign.loadFont();
 
 interface Props {
@@ -48,6 +50,8 @@ const Chat: React.FC<Props> = ({ route }) => {
   const [messages, setMessages] = useState<MessageModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const flatRef = useRef();
 
   useLayoutEffect(() => {
@@ -55,8 +59,11 @@ const Chat: React.FC<Props> = ({ route }) => {
 
     void loadUsersData();
 
+    dispatch(setActiveChatId(chat.id));
+
     return () => {
       RNdatabase().ref('/messages').off();
+      dispatch(setActiveChatId(''));
     };
   }, []);
 
@@ -130,14 +137,18 @@ const Chat: React.FC<Props> = ({ route }) => {
       chatId: chat.id,
       message: textMessage,
       userId: userLoggedId || '',
-      date: String(Date.now())
+      date: String(Date.now()),
+      userName: userLogged?.nickname || userLogged?.username
     };
 
     await database.message.createMessage(message);
 
-    void sendNotification(userLogged?.username || '', textMessage, [
-      otherUser.token
-    ]);
+    void sendNotification(
+      userLogged?.username || '',
+      textMessage,
+      [otherUser.token],
+      chat.id
+    );
 
     if (callbackFinish && typeof callbackFinish === 'function') {
       callbackFinish();

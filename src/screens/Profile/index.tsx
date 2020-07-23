@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { View } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import Avatar from '~/components/atoms/Avatar';
 import Text from '~/components/atoms/Text';
-import Button from '~/components/atoms/Button';
 
 import DropdownMoreOptions from './DropdownMoreOptions';
 
-import COLORS from '~/utils/colors';
 import SPACING from '~/utils/spacing';
 
 import * as Styled from './styles';
+
+import { RootState } from '~/redux/reducers';
 
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 void IconAntDesign.loadFont();
@@ -23,7 +24,9 @@ void Feather.loadFont();
 const walpapper = require('~/assets/img/walpapper.jpg');
 
 const Profile: React.FC = () => {
-  const navigation = useNavigation();
+  const {
+    user: { authUser }
+  } = useSelector((state: RootState) => state);
 
   return (
     <Styled.SafeAreaView>
@@ -31,46 +34,45 @@ const Profile: React.FC = () => {
         <Styled.Background source={walpapper}>
           <DropdownMoreOptions />
 
-          <Styled.WrapperProfileInfo>
-            <Styled.AreaRow>
-              <Avatar source={''} style={{ width: 100, height: 100 }} />
+          <Styled.AreaRow>
+            <Avatar source={''} style={{ width: 100, height: 100 }} />
+
+            <View style={{ flex: 1 }}>
+              <Text
+                numberOfLines={1}
+                style={{
+                  marginLeft: SPACING.high
+                }}
+                semiBold
+                big
+                color='white'
+              >
+                {authUser.success?.username}
+              </Text>
 
               <Text
                 numberOfLines={1}
                 style={{
-                  marginLeft: SPACING.default,
-                  width: '70%'
+                  marginLeft: SPACING.high,
+                  marginTop: SPACING.small
                 }}
-                extraBig
+                regular
                 semiBold
                 color='white'
               >
-                Giovani Jose Fonseca Chiodi
+                {authUser.success?.nickname}
               </Text>
-            </Styled.AreaRow>
-            <Styled.AreaRow>
-              <Button
-                onPress={() => navigation.navigate('EditProfile')}
-                style={{
-                  paddingLeft: SPACING.high,
-                  paddingRight: SPACING.high
-                }}
-              >
-                <Text regular bold color={COLORS.secondary}>
-                  Editar Dados
-                </Text>
-              </Button>
+            </View>
+          </Styled.AreaRow>
 
-              <Styled.WrapperDetails>
-                <Text color='white' bold>
-                  10
-                </Text>
-                <Text semiBold small color='white'>
-                  Amigos
-                </Text>
-              </Styled.WrapperDetails>
-            </Styled.AreaRow>
-          </Styled.WrapperProfileInfo>
+          <Styled.WrapperDetails>
+            <Text color='white' semiBold>
+              ...
+            </Text>
+            <Text semiBold small color='white'>
+              Amigos
+            </Text>
+          </Styled.WrapperDetails>
         </Styled.Background>
 
         <Styled.AreaSolicitations>

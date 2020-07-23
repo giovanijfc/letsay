@@ -7,6 +7,7 @@ import {
   renderers
 } from 'react-native-popup-menu';
 import auth from '@react-native-firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 
 import DropdownItem from '~/components/atoms/DropdownItem';
 
@@ -21,10 +22,14 @@ import Feather from 'react-native-vector-icons/Feather';
 void Feather.loadFont();
 
 const DropdownMoreOptions: React.FC = () => {
+  const navigation = useNavigation();
+
   const selectOptionsHandler = (optionValue: string) => {
     switch (optionValue) {
       case 'Logout':
         return onPressSignoutHandler();
+      case 'Edit':
+        return navigation.navigate('EditProfile');
       default:
         return;
     }
@@ -60,6 +65,8 @@ const DropdownMoreOptions: React.FC = () => {
             text='Trocar foto de capa'
             value='ChangeBackgroundImage'
           />
+
+          <DropdownItem text='Editar perfil' value='Edit' />
           <DropdownItem text='Sair da conta' value='Logout' />
         </MenuOptions>
       </Menu>

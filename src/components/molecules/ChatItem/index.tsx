@@ -2,6 +2,7 @@ import React, { memo, useLayoutEffect, useState } from 'react';
 import { View } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import auth from '@react-native-firebase/auth';
 
 import Text from '~/components/atoms/Text';
 
@@ -63,6 +64,8 @@ const ChatItem: React.FC<Props> = ({
     return moment(dateMessageTimeMillis).calendar();
   };
 
+  const userLoggedId = auth().currentUser?.uid || '';
+
   return (
     <Styled.Container onPress={() => onPress(otherUser, chat)}>
       <View
@@ -89,6 +92,7 @@ const ChatItem: React.FC<Props> = ({
           regular
           color='white'
         >
+          {lastMessage.userId === userLoggedId ? 'Você' : lastMessage.userName}:{' '}
           {lastMessage.message}
         </Text>
       </Styled.AreaInfo>

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Chats from '~/screens/Chats';
 
@@ -15,20 +15,25 @@ import { authUserSuccess } from '~/redux/actions/user';
 
 import { Notification } from '~/models/notification';
 import { User } from '~/models/user';
+import { RootState } from '~/redux/reducers';
 
 import * as Styled from './styles';
+
+let listenerOnMessage = () => {
+  return;
+};
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
 
+  const {
+    chats: { activeChatId }
+  } = useSelector((state: RootState) => state);
+
   useEffect(() => {
     void checkPermission();
 
-    const listenerOnMessage = messaging().onMessage(
-      (remoteMessage: Notification) => {
-        return showNotification(remoteMessage);
-      }
-    );
+    listenerOnMessage = onMessage();
 
     void (async () => {
       const userLoggedId = auth().currentUser?.uid || '';
@@ -44,6 +49,23 @@ const Home: React.FC = () => {
 
     return listenerOnMessage;
   }, []);
+
+  useEffect(() => {
+    if (listenerOnMessage) {
+      listenerOnMessage();
+    }
+
+    listenerOnMessage = onMessage();
+  }, [activeChatId]);
+
+  const onMessage = () =>
+    messaging().onMessage((remoteMessage: Notification) => {
+      if (remoteMessage.data.chatId === activeChatId) {
+        return;
+      }
+
+      return showNotification(remoteMessage);
+    });
 
   const checkEmailVerifiedCallback = () => {
     if (!auth().currentUser?.emailVerified) {

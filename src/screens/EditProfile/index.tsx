@@ -185,6 +185,12 @@ const EditProfile: React.FC = () => {
             placeholder='Data de aniversário'
             defaultValue={authUser.success?.birthday}
             onChange={(text: string) => onChangeText('birthday', text)}
+            mask={{
+              type: 'datetime',
+              options: {
+                format: 'DD/MM/YYYY'
+              }
+            }}
           />
 
           <Menu

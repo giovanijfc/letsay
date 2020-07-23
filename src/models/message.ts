@@ -2,6 +2,7 @@ export interface LastMessagePreview {
   message: string;
   date: string;
   userId: string;
+  userName?: string | '';
 }
 
 export interface Message {
@@ -10,4 +11,5 @@ export interface Message {
   date: string;
   userId: string;
   chatId: string;
+  userName?: string | '';
 }

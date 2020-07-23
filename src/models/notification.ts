@@ -5,4 +5,5 @@ export interface Notification {
 interface Data {
   body?: string | '';
   title?: string | '';
+  chatId?: string | '';
 }

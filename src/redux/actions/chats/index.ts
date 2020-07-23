@@ -19,6 +19,8 @@ export const ADD_NEW_CHAT = 'ADD_NEW_CHAT';
 
 export const UPDATE_CHAT = 'UPDATE_CHAT';
 
+export const SET_ACTIVE_CHAT_ID = 'SET_ACTIVE_CHAT_ID';
+
 const getAllChatsByIdUser = (): ChatsActionTypes => ({
   type: GET_ALL_CHATS_BY_ID_USER
 });
@@ -41,6 +43,13 @@ export const onAddNewChat = (chat: Chat): ChatsActionTypes => ({
 export const updateChat = (chat: Chat): ChatsActionTypes => ({
   type: UPDATE_CHAT,
   updatedChat: chat
+});
+
+export const setActiveChatId = (
+  chatId: string | undefined
+): ChatsActionTypes => ({
+  type: SET_ACTIVE_CHAT_ID,
+  chatId
 });
 
 export const getAllChatsByIdUserRequest = (

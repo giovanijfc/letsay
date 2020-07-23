@@ -3,7 +3,8 @@ import axios from 'axios';
 export const sendNotification = async (
   title: string,
   body: string,
-  tokens: string[]
+  tokens: string[],
+  chatId: string
 ): Promise<void> => {
   const FIREBASE_API_KEY =
     'AAAAzVUdv-c:APA91bEmCrd1TYg8Y5IxdBt2QrG4wxuoB4hwDYVWpy15H5trwKjchmvrc2U6pgDVHo4sDyTHgHZOfF72XAMrRGSY8Czqo8oL4eM67WnZ7zY0Qw5KMmccWkYPSyGQT1BrRnH8TQ-57He7';
@@ -22,7 +23,8 @@ export const sendNotification = async (
     },
     data: {
       title,
-      body
+      body,
+      chatId
     }
   };
 

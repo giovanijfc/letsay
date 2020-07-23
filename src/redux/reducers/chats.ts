@@ -3,7 +3,8 @@ import {
   GET_ALL_CHATS_BY_ID_USER_FAIL,
   GET_ALL_CHATS_BY_ID_USER_SUCCESS,
   ADD_NEW_CHAT,
-  UPDATE_CHAT
+  UPDATE_CHAT,
+  SET_ACTIVE_CHAT_ID
 } from '~/redux/actions/chats';
 
 import { ChatsState, ChatsActionTypes } from '~/redux/actions/chats/types';
@@ -13,7 +14,8 @@ const initialState: ChatsState = {
     success: [],
     fail: null,
     isLoading: false
-  }
+  },
+  activeChatId: undefined
 };
 
 const user = (state = initialState, action: ChatsActionTypes): ChatsState => {
@@ -89,6 +91,12 @@ const user = (state = initialState, action: ChatsActionTypes): ChatsState => {
           ...state.getAllChatsByIdUser,
           success: [action.updatedChat]
         }
+      };
+
+    case SET_ACTIVE_CHAT_ID:
+      return {
+        ...state,
+        activeChatId: action.chatId
       };
 
     default:
