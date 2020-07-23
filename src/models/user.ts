@@ -12,6 +12,6 @@ export interface User {
 
 export interface UserPreviewChat {
   id: string;
-  username: string;
+  usernameOrNickname: string;
   otherUserId: string;
 }

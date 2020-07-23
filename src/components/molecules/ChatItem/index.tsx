@@ -7,7 +7,6 @@ import auth from '@react-native-firebase/auth';
 import Text from '~/components/atoms/Text';
 
 import COLORS from '~/utils/colors';
-import SPACING from '~/utils/spacing';
 
 import { UserPreviewChat } from '~/models/user';
 import { LastMessagePreview } from '~/models/message';
@@ -50,7 +49,7 @@ const ChatItem: React.FC<Props> = ({
 
   const getDateFormated = (): string => {
     const timeMillisNow = Date.now();
-    const dateMessageTimeMillis = parseInt(lastMessage.date);
+    const dateMessageTimeMillis = parseInt(lastMessage?.date);
     const diferrence = timeMillisNow - dateMessageTimeMillis;
 
     if (!dateMessageTimeMillis) {
@@ -79,22 +78,38 @@ const ChatItem: React.FC<Props> = ({
       <Styled.AreaInfo>
         <Styled.WrapperHeaderInfo>
           <Text small semiBold color={COLORS.gray600}>
-            {otherUser.username}
+            {otherUser.usernameOrNickname}
           </Text>
           <Text small color={COLORS.gray600}>
             {getDateFormated()}
           </Text>
         </Styled.WrapperHeaderInfo>
 
-        <Text
-          numberOfLines={1}
-          style={{ marginTop: SPACING.default }}
-          regular
-          color='white'
-        >
-          {lastMessage.userId === userLoggedId ? 'Você' : lastMessage.userName}:{' '}
-          {lastMessage.message}
-        </Text>
+        <Styled.AreaRow>
+          {lastMessage ? (
+            <>
+              <Text numberOfLines={1} regular color='white'>
+                {lastMessage.userId === userLoggedId
+                  ? 'Você'
+                  : lastMessage.username}
+                : {lastMessage.message}
+              </Text>
+
+              {lastMessage.userId !== userLoggedId &&
+                lastMessage.isVisualized === false && (
+                  <Styled.Ball>
+                    <Text small bold>
+                      !
+                    </Text>
+                  </Styled.Ball>
+                )}
+            </>
+          ) : (
+            <Text numberOfLines={1} regular color='white'>
+              Envie uma mensagem...
+            </Text>
+          )}
+        </Styled.AreaRow>
       </Styled.AreaInfo>
     </Styled.Container>
   );

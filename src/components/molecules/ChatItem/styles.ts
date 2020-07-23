@@ -25,3 +25,20 @@ export const WrapperHeaderInfo = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
+
+export const Ball = styled.View`
+  width: 18;
+  height: 18;
+  align-items: center;
+  justify-content: center;
+  background-color: ${COLORS.primary};
+  border-radius: 100;
+  margin-right: ${SPACING.default};
+`;
+
+export const AreaRow = styled.View`
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;

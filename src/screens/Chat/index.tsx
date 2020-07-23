@@ -138,7 +138,7 @@ const Chat: React.FC<Props> = ({ route }) => {
       message: textMessage,
       userId: userLoggedId || '',
       date: String(Date.now()),
-      userName: userLogged?.nickname || userLogged?.username
+      username: userLogged?.nickname || userLogged?.username
     };
 
     await database.message.createMessage(message);

@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import { useDispatch, useSelector } from 'react-redux';
+import PushNotification from 'react-native-push-notification';
 
 import Chats from '~/screens/Chats';
 
@@ -32,6 +33,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     void checkPermission();
+    void PushNotification.cancelAllLocalNotifications();
 
     listenerOnMessage = onMessage();
 

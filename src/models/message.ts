@@ -2,7 +2,16 @@ export interface LastMessagePreview {
   message: string;
   date: string;
   userId: string;
-  userName?: string | '';
+  username?: string | '';
+  isVisualized: boolean;
+}
+
+export interface UpdateLastMessagePreview {
+  message?: string;
+  date?: string;
+  userId?: string;
+  username?: string | '';
+  isVisualized?: boolean;
 }
 
 export interface Message {
@@ -11,5 +20,4 @@ export interface Message {
   date: string;
   userId: string;
   chatId: string;
-  userName?: string | '';
 }

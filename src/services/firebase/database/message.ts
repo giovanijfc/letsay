@@ -4,13 +4,16 @@ import database from '~/services/firebase/database';
 
 import { Message } from '~/models/message';
 
-export const createMessage = async (message: Message): Promise<void> => {
+export const createMessage = async (newMessage: Message): Promise<void> => {
   const messages = RNdatabase().ref('/messages').push();
-  const chatId = message.chatId;
+  const chatId = newMessage.chatId;
 
-  await messages.set({ ...message, id: messages.key });
+  await messages.set({ ...newMessage, id: messages.key });
 
-  delete message['chatId'];
+  delete newMessage['chatId'];
 
-  await database.chat.updateLastChatMessage(chatId, message);
+  await database.chat.updateLastChatMessage(chatId, {
+    ...newMessage,
+    isVisualized: false
+  });
 };

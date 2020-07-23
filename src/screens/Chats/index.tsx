@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FlatList } from 'react-native';
 import RNdatabase from '@react-native-firebase/database';
 
+import database from '~/services/firebase/database';
+
 import ChatItem from '~/components/molecules/ChatItem';
 
 import Text from '~/components/atoms/Text';
@@ -54,6 +56,13 @@ const Chats: React.FC = () => {
   };
 
   const onPressChatItemHandler = (otherUser: unknown, chat: Chat) => {
+    if (chat.lastMessage) {
+      void database.chat.updateLastChatMessage(chat.id, {
+        ...chat.lastMessage,
+        isVisualized: true
+      });
+    }
+
     navigation.navigate('Chat', {
       otherUser,
       chat
@@ -64,11 +73,11 @@ const Chats: React.FC = () => {
     const chatsToSort: Chat[] = chats.getAllChatsByIdUser.success || [];
 
     return chatsToSort.sort((a, b) => {
-      if (!a.lastMessage.date) {
+      if (!a?.lastMessage?.date) {
         return 1;
       }
 
-      if (!b.lastMessage.date) {
+      if (!b?.lastMessage?.date) {
         return 0;
       }
 

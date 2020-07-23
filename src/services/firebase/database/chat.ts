@@ -3,7 +3,7 @@ import RNdatabase from '@react-native-firebase/database';
 import database from '~/services/firebase/database';
 
 import { Chat } from '~/models/chat';
-import { Message } from '~/models/message';
+import { UpdateLastMessagePreview } from '~/models/message';
 
 export const getChatsByIdUser = async (
   userLoggedId: string
@@ -46,16 +46,19 @@ export const createChat = async (usersIds: string[]): Promise<Chat> => {
 
   const chatCreated: Chat = {
     usersIds: {
-      [usersIds[0]]: { ...user1, userLoggedId: user0.id },
-      [usersIds[1]]: { ...user0, userLoggedId: user1.id }
+      [usersIds[0]]: {
+        ...user1,
+        usernameOrNickname: user1.nickname || user1.username,
+        userLoggedId: user0.id
+      },
+      [usersIds[1]]: {
+        ...user0,
+        usernameOrNickname: user0.nickname || user0.username,
+        userLoggedId: user1.id
+      }
     },
     id: String(chats.key),
-    dateCreated: String(Date.now()),
-    lastMessage: {
-      message: 'Inicie a conversa...',
-      date: '',
-      userId: ''
-    }
+    dateCreated: String(Date.now())
   };
 
   await chats.set(chatCreated);
@@ -65,8 +68,8 @@ export const createChat = async (usersIds: string[]): Promise<Chat> => {
 
 export const updateLastChatMessage = async (
   chatId: string,
-  message: Message
+  lastMessageToUpdate: UpdateLastMessagePreview
 ): Promise<void> => {
   const chatById = RNdatabase().ref(`/chats/${chatId}`);
-  await chatById.update({ lastMessage: message });
+  await chatById.update({ lastMessage: lastMessageToUpdate });
 };
