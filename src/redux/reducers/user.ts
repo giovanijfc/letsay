@@ -7,7 +7,8 @@ import {
   REGISTER_USER_FAIL,
   UPDATE_AUTH_USER_DATA,
   UPDATE_AUTH_USER_DATA_SUCCESS,
-  UPDATE_AUTH_USER_DATA_FAIL
+  UPDATE_AUTH_USER_DATA_FAIL,
+  RESET_STATE
 } from '~/redux/actions/user';
 
 import { UserState, UserActionTypes } from '~/redux/actions/user/types';
@@ -106,6 +107,12 @@ const user = (state = initialState, action: UserActionTypes): UserState => {
           isLoading: false,
           fail: action.fail
         }
+      };
+
+    case RESET_STATE:
+      return {
+        ...initialState,
+        user: state.user
       };
 
     default:
